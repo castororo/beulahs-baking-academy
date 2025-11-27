@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  /* ---------- FONT LOADING (WOFF2) ---------- */
+  /* -------------- JB changes ---------- */
+  /* Files are expected at /public/fonts/woff2/<name>.woff2 */
+  /* @font-face {
+    font-family: "Tovar";
+    src: url("/fonts/woff2/Tovar.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  } */
+   @font-face {
+  font-family: "Tovar";
+  src: url("/fonts/CostalineThin.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  
+}
+
+  @font-face {
+    font-family: "Costaline";
+    src: url("/fonts/CostalineThin.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "LeanSans";
+    src: url("/fonts/woff2/LeonSans-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "LeanSans";
+    src: url("/fonts/woff2/LeonSans-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* ---------- CSS Vars (colors etc) ---------- */
+  :root {
+    --background: 25 30% 95%;
+    --foreground: 20 40% 12%;
+
+    --card: 30 40% 98%;
+    --card-foreground: 20 40% 12%;
+
+    --popover: 30 40% 98%;
+    --popover-foreground: 20 40% 12%;
+
+    --primary: 20 45% 25%;
+    --primary-foreground: 30 35% 92%;
+
+    --secondary: 25 25% 85%;
+    --secondary-foreground: 20 40% 12%;
+
+    --muted: 25 20% 78%;
+    --muted-foreground: 20 25% 40%;
+
+    --accent: 20 48% 32%;
+    --accent-foreground: 30 35% 95%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 30 35% 98%;
+
+    --border: 25 25% 85%;
+    --input: 25 25% 85%;
+    --ring: 20 45% 25%;
+
+    --radius: 0.75rem;
+
+    --cream-50: 30 45% 96%;
+    --cream-100: 30 40% 92%;
+    --cream-300: 28 35% 82%;
+    --chocolate: 20 48% 32%;
+    --chocolate-dark: 18 50% 22%;
+    --taupe: 25 20% 68%;
+    --ink: 20 40% 12%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 20 35% 15%;
+    --foreground: 30 35% 95%;
+
+    --card: 20 35% 18%;
+    --card-foreground: 30 35% 95%;
+
+    --popover: 20 35% 18%;
+    --popover-foreground: 30 35% 95%;
+
+    --primary: 30 35% 92%;
+    --primary-foreground: 20 45% 25%;
+
+    --secondary: 20 25% 28%;
+    --secondary-foreground: 30 35% 95%;
+
+    --muted: 20 25% 28%;
+    --muted-foreground: 25 20% 65%;
+
+    --accent: 25 35% 45%;
+    --accent-foreground: 30 35% 95%;
+
+    --destructive: 0 62.8% 50.6%;
+    --destructive-foreground: 30 35% 98%;
+
+    --border: 20 25% 28%;
+    --input: 20 25% 28%;
+    --ring: 30 35% 80%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* ---------- Global typography mapping ---------- */
+  /* Body (default text) -> LeanSans (regular) */
+  body {
+    @apply bg-background text-foreground;
+    font-family: "LeanSans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 400;
+    
+  }
+
+  /* Headings / site header text -> Costaline */
+  /* h1, h2, h3, h4, h5, h6 {
+    font-family: "Costaline", "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    font-weight: 500; 
+    text-align: center; 
+    letter-spacing: 5
+  }  */
+  
+  h1, h2, h3, h4, h5, h6 {
+  font-family: "Costaline", "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  font-weight: 500;
+  
+  letter-spacing: 0.04em;
+  line-height: 2.5;
+  padding: 0.5 rem 0;
+  }
+  /* text-align: center; */
+
+  /* Brand word 'Beulah' — use Tovar bold */
+  .brand-font {
+    font-family: "Tovar", "Costaline", serif;
+    font-weight: 700;
+    letter-spacing: 5;
+  }
+
+  /* Utilities for replacing the Coco Gothic usage (LeanSans used as substitute) */
+  /* All-CAPS (Coco Gothic regular replacement) */
+  .all-caps {
+    font-family: "LeanSans", Inter, sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Normal text where you wanted 'Coco Gothic - bold' */
+  .text-strong {
+    font-family: "LeanSans", Inter, sans-serif;
+    font-weight: 700;
+  }
+
+  /* Ensure centered body-aligned text where intended (you requested center alignment in places) */
+  .center-text {
+    text-align: center;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
