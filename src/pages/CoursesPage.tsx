@@ -1,20 +1,20 @@
 // src/pages/CoursesPage.tsx
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { CourseCard } from "@/components/CourseCard";
+import { CourseCardSkeleton } from "@/components/CourseCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { Award, BookOpen, Clock } from "lucide-react";
 import coursesData from "@/data/courses.json";
+import styles from "./CoursesPage.module.css";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { useButtonLoading } from "@/hooks/use-button-loading";
+import { Loader2 } from "lucide-react";
 
 /* Images / assets
-   Replace / add these files in your assets folder if they are not present:
-   - @/assets/academy-hero.jpg
-   - @/assets/book-now.jpg
-   - @/assets/course-cake-master-class.jpg
-   - @/assets/course-plum-cake-workshop.jpg
-   - @/assets/course-brownie-workshop.jpg
-   - @/assets/course-spoken-english.jpg
-   - @/assets/course-cursive-handwriting.jpg
+   All course images are mapped below. Each course in courses.json has a corresponding image:
+   - Baking courses: brownie, cupcake, tea-cake, plum-cake, cake-master-class, cookies
+   - Other courses: cursive-writing, spoken-english
 */
 import academyHero from "@/assets/academy-hero.jpg";
 import bookNowImg from "@/assets/book-now.jpg";
@@ -23,6 +23,9 @@ import bookNowImg from "@/assets/book-now.jpg";
 import courseCakeMaster from "@/assets/cake-master-class.jpg";
 import coursePlumCake from "@/assets/plum-cake-workshop.jpg";
 import courseBrownie from "@/assets/hero-brownies.png";
+import courseCupcake from "@/assets/hero-cupcake.png";
+import courseTeaCake from "@/assets/tea-cake.jpg";
+import courseCookies from "@/assets/cookies.png";
 import courseSpoken from "@/assets/spoken-english.jpg";
 import courseCursive from "@/assets/cursive-writing.jpg";
 
@@ -41,75 +44,41 @@ const ORDER_FORM_URL = "https://forms.gle/L7r2nXz9SfwBDi9x9";
  */
 const getCourseImage = (courseId: string, index: number) => {
   const map: Record<string, string | undefined> = {
-    // map known course ids to assets (update keys to match your courses.json ids)
-    "cake-master-class": courseCakeMaster,
-    "plum-cake-workshop": coursePlumCake,
+    // Baking courses
     "brownie-workshop": courseBrownie,
-    "spoken-english": courseSpoken,
+    "cupcake-workshop": courseCupcake,
+    "tea-cake-workshop": courseTeaCake,
+    "plum-cake-workshop": coursePlumCake,
+    "cake-master-class": courseCakeMaster,
+    "cookies-workshop": courseCookies,
+    // Other courses
     "cursive-writing": courseCursive,
+    "spoken-english": courseSpoken,
   };
   const img = map[courseId];
-  if (img && typeof img === "string" && img.length > 0) return img;
+  if (img) return img;
   return fallbackImages[index % fallbackImages.length];
 };
 
 const CoursesPage: React.FC = () => {
+  const [isLoadingCourses, setIsLoadingCourses] = useState(true);
+  const [isLoadingOtherCourses, setIsLoadingOtherCourses] = useState(true);
+  const { isLoading: isButtonLoading, withLoading } = useButtonLoading();
+
+  // Simulate async course data loading
+  useEffect(() => {
+    const loadCourses = async () => {
+      // Simulate API call or data processing delay
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      setIsLoadingCourses(false);
+      setIsLoadingOtherCourses(false);
+    };
+
+    loadCourses();
+  }, []);
+
   return (
     <div className="min-h-screen pt-24">
-      {/* page palette variables and small helpers */}
-      <style>{`
-        :root {
-          --cream: #F2E6DC;
-          --choco: #2E2622;
-          --coco: #4A2C21;
-          --mocha: #A18C7B;
-        }
-        .costaline-font { font-family: 'Costaline', serif; }
-        .leansans-regular { font-family: 'Leansans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
-        .leansans-bold { font-family: 'Leansans-Bold', sans-serif; font-weight:700; }
-
-        /* Section-level Book Now button (big) */
-        /* Section-level Book Now button (big) */
-        .section-book-btn {
-          padding: 1.2rem 3rem;
-          font-size: 1.2rem;
-          border-radius: 0;
-          border: 2px solid var(--choco);
-          background: transparent;
-          color: var(--choco);
-          transition: all 0.3s ease;
-        }
-        .section-book-btn:hover {
-          background: var(--choco);
-          color: var(--cream);
-          transform: scale(1.05);
-          box-shadow: 0 10px 20px rgba(46,38,34,0.15);
-        }
-
-        /* Final CTA big Book Now button (filled) */
-        .booknow-btn {
-          padding: 1.1rem 2.2rem;
-          font-size: 1.05rem;
-          border-radius: 0;
-          border: 2px solid var(--choco);
-          background: var(--choco);
-          color: var(--cream);
-        }
-        .booknow-btn:hover { opacity: 0.95; }
-
-
-
-        /* layout for final CTA row (image + action) */
-        .final-cta-grid {
-          display: grid;
-          grid-template-columns: 1fr 420px;
-          gap: 36px;
-          align-items: center;
-        }
-        @media (max-width: 900px) {
-          .final-cta-grid { grid-template-columns: 1fr; }
-        }
-      `}</style>
 
       {/* Hero Section */}
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background">
@@ -174,30 +143,46 @@ const CoursesPage: React.FC = () => {
             Courses on Baking
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
-            {coursesData.bakingCourses.map((course, index) => (
-              <div key={course.id} className="h-full">
-                <CourseCard
-                  title={course.title}
-                  duration={course.duration}
-                  tag={course.tag}
-                  shortDesc={course.shortDesc}
-                  delay={index * 0.08}
-                  image={getCourseImage(course.id, index)}
-                  imageAlt={course.title}
-                />
+          {isLoadingCourses ? (
+            <div className="flex justify-center items-center py-12">
+              <LoadingSpinner size="lg" text="Loading baking courses..." />
+            </div>
+          ) : (
+            <div className={styles.coursesViewport}>
+              <div className={styles.coursesTrack}>
+                {[...coursesData.bakingCourses, ...coursesData.bakingCourses].map((course, index) => (
+                  <div key={`${course.id}_${index}`} className={styles.courseItem}>
+                    <CourseCard
+                      title={course.title}
+                      duration={course.duration}
+                      tag={course.tag}
+                      shortDesc={course.shortDesc}
+                      delay={0}
+                      image={getCourseImage(course.id, index % coursesData.bakingCourses.length)}
+                      imageAlt={course.title}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
 
           {/* Single section-level Book Now for Baking courses */}
           <div className="py-16 text-center mt-6">
             <Button
               size="lg"
-              className="section-book-btn leansans-bold"
-              onClick={() => window.open(ORDER_FORM_URL, "_blank")}
+              className={`${styles.sectionBookBtn} leansans-bold`}
+              onClick={() => withLoading("baking-courses", async () => window.open(ORDER_FORM_URL, "_blank"))}
+              disabled={isButtonLoading("baking-courses")}
             >
-              Book Your Course
+              {isButtonLoading("baking-courses") ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Opening...
+                </>
+              ) : (
+                "Book Your Course"
+              )}
             </Button>
           </div>
         </div>
@@ -259,30 +244,46 @@ const CoursesPage: React.FC = () => {
             Other courses offered
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-6">
-            {coursesData.otherCourses.map((course, index) => (
-              <div key={course.id} className="h-full">
-                <CourseCard
-                  title={course.title}
-                  duration={course.duration}
-                  tag={course.tag}
-                  shortDesc={course.shortDesc}
-                  delay={index * 0.08}
-                  image={getCourseImage(course.id, index)}
-                  imageAlt={course.title}
-                />
-              </div>
-            ))}
-          </div>
+          {isLoadingOtherCourses ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {[1, 2].map((index) => (
+                <CourseCardSkeleton key={`skeleton-${index}`} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {coursesData.otherCourses.map((course, index) => (
+                <div key={course.id} className="w-full">
+                  <CourseCard
+                    title={course.title}
+                    duration={course.duration}
+                    tag={course.tag}
+                    shortDesc={course.shortDesc}
+                    delay={0}
+                    image={getCourseImage(course.id, index)}
+                    imageAlt={course.title}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Single section-level Book Now for Other courses */}
           <div className="py-16 text-center mt-6">
             <Button
               size="lg"
-              className="section-book-btn leansans-bold"
-              onClick={() => window.open(ORDER_FORM_URL, "_blank")}
+              className={`${styles.sectionBookBtn} leansans-bold`}
+              onClick={() => withLoading("other-courses", async () => window.open(ORDER_FORM_URL, "_blank"))}
+              disabled={isButtonLoading("other-courses")}
             >
-              Book Other Courses
+              {isButtonLoading("other-courses") ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Opening...
+                </>
+              ) : (
+                "Book Other Courses"
+              )}
             </Button>
           </div>
 
@@ -312,12 +313,12 @@ const CoursesPage: React.FC = () => {
       {/* CTA Section - image + single large Book Now (final) */}
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-cream-300">
         <div className="w-full mx-auto">
-          <div className="final-cta-grid">
+          <div className={styles.finalCtaGrid}>
             <div>
               <img
                 src={bookNowImg}
                 alt="Book Now"
-                style={{ width: "100%", height: "auto", borderRadius: 12 }}
+                className={styles.bookNowImage}
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = fallbackImages[0];
                 }}
@@ -329,10 +330,18 @@ const CoursesPage: React.FC = () => {
                 <h2 className="text-4xl md:text-5xl font-bold mb-8">Book your course now!</h2>
                 <Button
                   size="lg"
-                  className="booknow-btn leansans-bold"
-                  onClick={() => window.open(ORDER_FORM_URL, "_blank")}
+                  className={`${styles.booknowBtn} leansans-bold`}
+                  onClick={() => withLoading("final-cta", async () => window.open(ORDER_FORM_URL, "_blank"))}
+                  disabled={isButtonLoading("final-cta")}
                 >
-                  Book Now
+                  {isButtonLoading("final-cta") ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Opening...
+                    </>
+                  ) : (
+                    "Book Now"
+                  )}
                 </Button>
               </motion.div>
             </div>

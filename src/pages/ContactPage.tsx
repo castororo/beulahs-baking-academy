@@ -17,7 +17,7 @@ const ContactPage = () => {
               Get in Touch
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground">
-              We'd love to hear from you! Reach out for course inquiries, custom orders, or just
+              We'd love to hear from you! Reach out for workshop inquiries, custom orders, or just
               to say hello.
             </p>
           </motion.div>
@@ -114,7 +114,7 @@ const ContactPage = () => {
               Ready to start your baking journey?
             </h2>
             <p className="text-lg text-muted-foreground mb-6">
-              Book a course or place an order today!
+              Book a workshop or place an order today!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -124,7 +124,7 @@ const ContactPage = () => {
                   window.open("https://forms.gle/L7r2nXz9SfwBDi9x9", "_blank")
                 }
               >
-                Book a Course
+                Book a Workshop
               </Button>
               <Button
                 size="lg"

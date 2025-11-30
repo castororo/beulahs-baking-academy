@@ -6,10 +6,14 @@ import { Button as UiButton } from "@/components/ui/button";
 import TestimonialsMarquee from "@/components/TestimonialsMarquee";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { useNavigate } from "react-router-dom";
+import { useAnimationEffects } from "@/hooks/use-animation-effects";
+import { useButtonLoading } from "@/hooks/use-button-loading";
+import styles from "./HomePage.module.css";
+import { Loader2 } from "lucide-react";
 
 import freshdesert from "@/assets/shop.jpg";
 import Bakingclass from "@/assets/home.jpg";
-import coursesData from "@/data/courses.json";
+import workshopsData from "@/data/workshops.json";
 
 import yummyblondies from "@/assets/yummy blondies.png";
 import yummybrownies from "@/assets/yummy brownies.jpg";
@@ -17,12 +21,11 @@ import deliciouscupcakes from "@/assets/Delicious cupcakes.jpg";
 import mouthwateringcakes from "@/assets/mouthwatering-cakes.jpg";
 
 import ProductCard from "@/components/ProductCard";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 
 /* fallback images */
 const fallbackImages = [yummybrownies, mouthwateringcakes, deliciouscupcakes, yummyblondies];
 
-let idCounter = 0;
-const uniqueId = (prefix = "id") => `${prefix}_${Date.now()}_${idCounter++}`;
 const ORDER_FORM_URL = "https://forms.gle/AUT9suo7jX4Svo2Z9";
 
 const HomePage: React.FC = () => {
@@ -31,53 +34,17 @@ const HomePage: React.FC = () => {
   const { scrollYProgress } = useScroll({ target: containerRef });
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
-  const { scrollY } = useScroll();
-  const yOffset = useTransform(scrollY, [0, 800], [0, -60], { clamp: true });
-
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const [clones, setClones] = useState<{ id: string; img: string; x: number; y: number; w: number; h: number }[]>([]);
-  const [particles, setParticles] = useState<{ id: string; x: number; y: number; color?: string }[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [isLoadingGSAP, setIsLoadingGSAP] = useState(true);
   const gsapRef = useRef<any>(null);
+  const { clones, particles, spawnClone, spawnParticles, playClickSound, handleUndo, clearEffects } = useAnimationEffects();
+  const { isLoading: isButtonLoading, withLoading } = useButtonLoading();
 
   const getImageSrc = (product: any, index: number) => {
     const candidate = product?.image;
     if (typeof candidate === "string" && candidate.trim().length > 0) return candidate;
     return fallbackImages[index % fallbackImages.length];
-  };
-
-  const spawnClone = (imgSrc: string, rect: DOMRect) => {
-    const id = uniqueId("clone");
-    setClones((s) => [...s, { id, img: imgSrc, x: rect.left + window.scrollX, y: rect.top + window.scrollY, w: rect.width, h: rect.height }]);
-    setTimeout(() => setClones((s) => s.filter((c) => c.id !== id)), 1000);
-  };
-
-  const spawnParticles = (pageX: number, pageY: number) => {
-    const colors = ["#f6d3c6", "#d6b89a", "#f0e1d8", "#c9987d"];
-    const burstId = uniqueId("burst");
-    const newParticles = Array.from({ length: 8 }).map((_, i) => ({ id: `${burstId}_${i}`, x: pageX, y: pageY, color: colors[i % colors.length] }));
-    setParticles((s) => [...s, ...newParticles]);
-    setTimeout(() => setParticles((s) => s.filter((p) => !newParticles.find((n) => n.id === p.id))), 900);
-  };
-
-  const playClickSound = () => {
-    try {
-      const AudioContext = (window as any).AudioContext || (window as any).webkitAudioContext;
-      const ctx = new AudioContext();
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.type = "triangle";
-      o.frequency.value = 660;
-      g.gain.value = 0.0001;
-      o.connect(g);
-      g.connect(ctx.destination);
-      const now = ctx.currentTime;
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.02, now + 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-      o.start();
-      o.stop(now + 0.14);
-      setTimeout(() => ctx.close().catch(() => { }), 220);
-    } catch { }
   };
 
   const handleProductClick = (e: React.MouseEvent, imgSrc: string) => {
@@ -89,24 +56,22 @@ const HomePage: React.FC = () => {
     playClickSound();
   };
 
-  const handleUndo = () => {
-    setClones((s) => {
-      if (!s.length) return s;
-      const next = s.slice(0, s.length - 1);
-      setParticles((p) => p.slice(0, Math.max(0, p.length - 8)));
-      return next;
+  const handleGlobalOrder = () => {
+    playClickSound();
+    withLoading("order-now", async () => {
+      window.open(ORDER_FORM_URL, "_blank", "noopener,noreferrer");
     });
   };
 
-  const handleGlobalOrder = () => {
-    playClickSound();
-    window.open(ORDER_FORM_URL, "_blank", "noopener,noreferrer");
-  };
-
   useEffect(() => {
+    // Simulate initial load time for skeleton display
+    const timer = setTimeout(() => {
+      setIsLoadingProducts(false);
+    }, 800);
+
     return () => {
-      setClones([]);
-      setParticles([]);
+      clearTimeout(timer);
+      clearEffects();
     };
   }, []);
 
@@ -115,6 +80,7 @@ const HomePage: React.FC = () => {
     let scrollTrigger: any;
     (async () => {
       try {
+        setIsLoadingGSAP(true);
         const gsap = (await import("gsap")).default;
         scrollTrigger = (await import("gsap/ScrollTrigger")).default;
         gsap.registerPlugin(scrollTrigger);
@@ -124,7 +90,11 @@ const HomePage: React.FC = () => {
           gsap.to(".discover-desserts .parallax-img", { yPercent: -12, ease: "none", scrollTrigger: { trigger: ".discover-desserts", scrub: 0.8, start: "top bottom", end: "bottom top" } });
           // Removed GSAP animation for take-a-bite-section to match ShopPage and fix lag
         }, containerRef);
-      } catch { }
+        setIsLoadingGSAP(false);
+      } catch (error) {
+        console.error("Failed to load GSAP:", error);
+        setIsLoadingGSAP(false);
+      }
     })();
     return () => { try { if (ctx) ctx.revert(); } catch { } if (scrollTrigger && scrollTrigger.kill) try { scrollTrigger.kill(); } catch { } };
   }, []);
@@ -149,8 +119,7 @@ const HomePage: React.FC = () => {
               <motion.img
                 src={freshdesert}
                 alt="Fresh desserts preview"
-                className="absolute inset-0 w-full h-full object-cover parallax-img rounded-tl-[28px] rounded-bl-[28px]"
-                style={{ display: "block", backgroundColor: "transparent" }}
+                className={`absolute inset-0 w-full h-full object-cover parallax-img rounded-tl-[28px] rounded-bl-[28px] ${styles.blockImage}`}
                 initial={{ scale: 1.06 }}
                 whileInView={{ scale: 1 }}
                 transition={{ duration: 1.2 }}
@@ -180,9 +149,9 @@ const HomePage: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-12 items-stretch">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="flex flex-col justify-center text-center">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 costaline-font">Skills That Last a Lifetime</h2>
-              <p className="text-lg leansans-bold mb-8 leading-relaxed">JOIN OUR ONLINE CERTIFIED COURSES ON BAKING AND MORE</p>
+              <p className="text-lg leansans-bold mb-8 leading-relaxed">JOIN OUR ONLINE CERTIFIED WORKSHOPS ON BAKING AND MORE</p>
               <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 280 }}>
-                <UiButton variant="cream" className="rounded-none" onClick={() => navigate("/courses")}>Learn More</UiButton>
+                <UiButton variant="cream" className="rounded-none" onClick={() => navigate("/workshops")}>Learn More</UiButton>
               </motion.div>
             </motion.div>
 
@@ -191,8 +160,7 @@ const HomePage: React.FC = () => {
               <motion.img
                 src={Bakingclass}
                 alt="Baking class preview"
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ display: "block", backgroundColor: "transparent" }}
+                className={`absolute inset-0 w-full h-full object-cover ${styles.blockImage}`}
                 initial={{ scale: 1.03 }}
                 whileInView={{ scale: 1 }}
                 transition={{ duration: 1.2 }}
@@ -216,41 +184,65 @@ const HomePage: React.FC = () => {
           <div className="relative overflow-hidden">
             {/* Plain grid (no marquee) — 2 columns on small, 4 on md+ */}
             <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
-              {coursesData.products.map((product: any, index: number) => {
-                const imgSrc = getImageSrc(product, index);
-                return (
-                  <div key={product.id || index} style={{ minWidth: 220, maxWidth: 260 }}>
-                    <ProductCard
-                      product={product}
-                      index={index}
-                      imgSrc={imgSrc}
-                      gridRef={gridRef}
-                      onProductClick={handleProductClick}
-                      onImageError={handleImageError}
-                    />
+              {isLoadingProducts ? (
+                // Show skeletons during initial load
+                Array.from({ length: 4 }).map((_, index) => (
+                  <div key={`skeleton-${index}`} className={styles.productCardWrapper}>
+                    <ProductCardSkeleton />
                   </div>
-                );
-              })}
+                ))
+              ) : (
+                // Show actual products once loaded
+                workshopsData.products.map((product: any, index: number) => {
+                  const imgSrc = getImageSrc(product, index);
+                  return (
+                    <div key={product.id || index} className={styles.productCardWrapper}>
+                      <ProductCard
+                        product={product}
+                        index={index}
+                        imgSrc={imgSrc}
+                        gridRef={gridRef}
+                        onProductClick={handleProductClick}
+                        onImageError={handleImageError}
+                      />
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
 
           <div className="text-center mt-10">
             <motion.div whileTap={{ scale: 0.98 }} whileHover={{ y: -4 }}>
-              <UiButton size="lg" className="bg-chocolate hover:bg-chocolate-dark text-cream-50 px-8 py-4 rounded-none" onClick={handleGlobalOrder}>Order Now</UiButton>
+              <UiButton
+                size="lg"
+                className="bg-chocolate hover:bg-chocolate-dark text-cream-50 px-8 py-4 rounded-none"
+                onClick={handleGlobalOrder}
+                disabled={isButtonLoading("order-now")}
+              >
+                {isButtonLoading("order-now") ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Opening...
+                  </>
+                ) : (
+                  "Order Now"
+                )}
+              </UiButton>
             </motion.div>
           </div>
         </div>
 
         {/* clones */}
         {clones.map((c) => (
-          <motion.div key={c.id} initial={{ opacity: 0, scale: 0.6, x: c.x, y: c.y }} animate={{ opacity: 1, scale: 1.25, x: c.x - c.w * 0.1, y: c.y - c.h * 0.15 }} transition={{ duration: 0.65, ease: "easeOut" }} style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none", width: c.w, height: c.h, zIndex: 80 }}>
-            <img src={c.img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 0, boxShadow: "0 12px 30px rgba(0,0,0,0.25)" }} />
+          <motion.div key={c.id} initial={{ opacity: 0, scale: 0.6, x: c.x, y: c.y }} animate={{ opacity: 1, scale: 1.25, x: c.x - c.w * 0.1, y: c.y - c.h * 0.15 }} transition={{ duration: 0.65, ease: "easeOut" }} className={styles.cloneContainer} style={{ width: c.w, height: c.h }}>
+            <img src={c.img} alt="" className={styles.cloneImage} />
           </motion.div>
         ))}
 
         {/* particles */}
         {particles.map((p) => (
-          <motion.div key={p.id} initial={{ opacity: 1, x: p.x, y: p.y, scale: 0.9 }} animate={{ x: [p.x, p.x + (Math.random() * 160 - 80)], y: [p.y, p.y - (60 + Math.random() * 80)], opacity: [1, 0], scale: [0.9, 0.2] }} transition={{ duration: 0.8, ease: "easeOut" }} style={{ position: "absolute", left: 0, top: 0, zIndex: 90, pointerEvents: "none" }}>
+          <motion.div key={p.id} initial={{ opacity: 1, x: p.x, y: p.y, scale: 0.9 }} animate={{ x: [p.x, p.x + (Math.random() * 160 - 80)], y: [p.y, p.y - (60 + Math.random() * 80)], opacity: [1, 0], scale: [0.9, 0.2] }} transition={{ duration: 0.8, ease: "easeOut" }} className={styles.particleContainer}>
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="6" fill={p.color || "#f0d6c7"} /></svg>
           </motion.div>
         ))}
@@ -275,14 +267,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* inline styles copied from your previous file (arch) */}
-      <style>{`
-        .arch-card { position: relative; aspect-ratio: 3 / 4; border-radius: 9999px 9999px 0 0; overflow: hidden; }
-        .arch-card::before { content:''; position:absolute; inset:0; border-radius:inherit; border-bottom:none; border:1px solid rgba(0,0,0,0.05); pointer-events:none; z-index:1; }
-        .arch-card::after { content:''; position:absolute; left:8px; right:8px; top:6px; height:54%; border-top-left-radius:9999px; border-top-right-radius:9999px; border-bottom-left-radius:0; border-bottom-right-radius:0; border:3px solid rgba(255,255,255,0.55); border-bottom:none; pointer-events:none; z-index:5; box-shadow:0 6px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.12); mix-blend-mode: screen; }
-        .arch-decor { position:absolute; left:0; right:0; top:0; height:28%; background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent); z-index:4; pointer-events:none; }
-        @media (max-width: 420px) { .arch-card::after { display:none; } }
-      `}</style>
     </div>
   );
 };

@@ -94,6 +94,12 @@ All colors MUST be HSL.
     --taupe: 25 20% 68%;
     --ink: 20 40% 12%;
 
+    /* Page-specific color variables */
+    --cream: #F2E6DC;
+    --choco: #2E2622;
+    --coco: #4A2C21;
+    --mocha: #A18C7B;
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -178,7 +184,7 @@ All colors MUST be HSL.
   
   letter-spacing: 0.04em;
   line-height: 2.5;
-  padding: 0.5 rem 0;
+  padding: 0.5rem 0;
   }
   /* text-align: center; */
 
@@ -243,5 +249,61 @@ All colors MUST be HSL.
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+
+/* Arch Card Styles (used by ProductCard component) */
+.arch-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 9999px 9999px 0 0;
+  overflow: hidden;
+  max-width: 260px;
+}
+
+.arch-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border-bottom: none;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.arch-card::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 6px;
+  height: 54%;
+  border-top-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 3px solid rgba(255, 255, 255, 0.55);
+  border-bottom: none;
+  pointer-events: none;
+  z-index: 5;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  mix-blend-mode: screen;
+}
+
+.arch-decor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 28%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
+@media (max-width: 420px) {
+  .arch-card::after {
+    display: none;
   }
 }

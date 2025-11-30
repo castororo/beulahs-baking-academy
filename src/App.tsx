@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import PageErrorBoundary from "@/components/PageErrorBoundary";
 import HomePage from "./pages/HomePage";
-import CoursesPage from "./pages/CoursesPage";
+import WorkshopsPage from "./pages/WorkshopsPage";
 import ShopPage from "./pages/ShopPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
@@ -14,27 +16,61 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/courses" element={<CoursesPage />} />
-              <Route path="/shop" element={<ShopPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <ErrorBoundary showDetails={import.meta.env.DEV}>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen">
+            <ErrorBoundary>
+              <Header />
+            </ErrorBoundary>
+            <main className="flex-1">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <PageErrorBoundary pageName="Home">
+                      <HomePage />
+                    </PageErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/workshops"
+                  element={
+                    <PageErrorBoundary pageName="Workshops">
+                      <WorkshopsPage />
+                    </PageErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/shop"
+                  element={
+                    <PageErrorBoundary pageName="Shop">
+                      <ShopPage />
+                    </PageErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/contact"
+                  element={
+                    <PageErrorBoundary pageName="Contact">
+                      <ContactPage />
+                    </PageErrorBoundary>
+                  }
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <ErrorBoundary>
+              <Footer />
+            </ErrorBoundary>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

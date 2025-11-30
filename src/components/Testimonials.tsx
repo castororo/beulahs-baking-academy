@@ -6,11 +6,11 @@ const testimonials = [
   {
     text: "Sir explained it so well that I understood everything clearly. It's really helpful mom",
     author: "Student Parent",
-    role: "Baking Course Graduate",
+    role: "Baking Workshop Graduate",
   },
   {
     text: "Super class mom.... All class exordinary super.... Best part last left 15mins no miss panniten mom....love this class ... very useful mam",
-    author: "Course Participant",
+    author: "Workshop Participant",
     role: "Workshop Attendee",
   },
 ];
@@ -28,7 +28,7 @@ export const Testimonials = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Testimonials</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real experiences from our baking and art course graduates
+            Real experiences from our baking and art workshop graduates
           </p>
         </motion.div>
 

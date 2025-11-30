@@ -133,7 +133,7 @@ export const Footer: React.FC = () => {
               >
                 LEARN. BAKE. DELIGHT.
                 <br />
-                AFFORDABLE ONLINE CERTIFIED CLASSES ON BAKING AND MORE
+                AFFORDABLE ONLINE CERTIFIED WORKSHOPS ON BAKING AND MORE
                 <br />
                 GOVERNMENT REGISTERED CERTIFICATES
               </p>

@@ -1,0 +1,37 @@
+/* Product Card Wrapper */
+.productCardWrapper {
+  min-width: 220px;
+  max-width: 260px;
+}
+
+/* Image Styles */
+.blockImage {
+  display: block;
+  background-color: transparent;
+}
+
+/* Animation Effects */
+.cloneContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 80;
+}
+
+.cloneImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.particleContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+

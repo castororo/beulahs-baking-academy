@@ -34,7 +34,7 @@ export const Header = () => {
   const links = [
     { to: "/", label: "HOME" },
     { to: "/shop", label: "SHOP" },
-    { to: "/courses", label: "COURSES" },
+    { to: "/workshops", label: "WORKSHOPS" },
     { to: "/contact", label: "CONTACT" },
   ];
 

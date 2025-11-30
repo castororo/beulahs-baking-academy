@@ -7,7 +7,7 @@ const testimonialsSeed = [
     id: "t1",
     name: "Meera K.",
     location: "Chennai",
-    text: "Amazing course — learned baking techniques that I still use. The lessons were super clear and fun.",
+    text: "Amazing workshop — learned baking techniques that I still use. The lessons were super clear and fun.",
     rating: 5,
   },
   {

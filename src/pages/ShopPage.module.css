@@ -1,0 +1,173 @@
+.shopPageContainer {
+  background: var(--cream);
+}
+
+/* Hero Section Styles */
+.heroTitle {
+  color: var(--coco);
+  line-height: 1.02;
+}
+
+.heroDescription {
+  color: rgba(46, 38, 34, 0.9);
+}
+
+.heroImage {
+  width: 420px;
+  max-width: 90%;
+  transform-origin: 50% 60%;
+}
+
+/* Take a Bite Section */
+.takeABiteTitle {
+  color: var(--coco);
+}
+
+/* Product Grid */
+.productCardWrapper {
+  min-width: 220px;
+  max-width: 260px;
+}
+
+/* All Products Section */
+.allProductsTitle {
+  color: var(--coco);
+}
+
+/* Product Square Styles */
+.productSquare {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(46, 38, 34, 0.06);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.productMeta {
+  padding: 12px 14px;
+  background: transparent;
+  color: var(--choco);
+}
+
+.productTitle {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.productDesc {
+  font-size: 14px;
+  color: rgba(46, 38, 34, 0.75);
+}
+
+/* Product Image Container */
+.productImageContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+}
+
+.productImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* All Products carousel: right → left marquee */
+@keyframes allProductsMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.allProductsViewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.allProductsTrack {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  align-items: stretch;
+  animation: allProductsMarquee 20s linear infinite;
+}
+
+.allProductsTrack:hover {
+  animation-play-state: paused;
+}
+
+.allProductItem {
+  flex: 0 0 280px;
+  max-width: 280px;
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .allProductItem {
+    flex: 0 0 220px;
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .allProductItem {
+    flex: 0 0 180px;
+    max-width: 180px;
+  }
+}
+
+/* Preorder Section */
+.preorderSection {
+  background: var(--cream);
+}
+
+.preorderTitle {
+  color: var(--choco);
+}
+
+/* Preorder big button */
+.preorderOrderBtn {
+  padding: 1.1rem 2.2rem;
+  font-size: 1.05rem;
+  border-radius: 0;
+  border: 1px solid var(--choco);
+  background: transparent;
+  color: var(--choco);
+}
+
+.preorderOrderBtn:hover {
+  background: var(--choco);
+  color: var(--cream);
+}
+
+/* Animation Effects */
+.cloneContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 80;
+}
+
+.cloneImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.particleContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+

@@ -1,5 +1,5 @@
 // src/components/ProductCard.tsx
-import React from "react";
+import React, { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
@@ -31,37 +31,37 @@ const itemVariants = {
  */
 export type ProductCardProps =
   | {
-      // animated/homepage variant
-      product: any;
-      index: number;
-      imgSrc: string;
-      gridRef?: React.RefObject<HTMLElement | null>;
-      onProductClick?: (e: React.MouseEvent, imgSrc: string) => void;
-      onImageError?: (e: React.SyntheticEvent<HTMLImageElement, Event>, index: number, title?: string) => void;
-      // optional: keep simple props undefined
-      title?: never;
-      price?: never;
-      shortDesc?: never;
-      image?: never;
-      delay?: never;
-      variant?: "arch" | "simple";
-    }
+    // animated/homepage variant
+    product: any;
+    index: number;
+    imgSrc: string;
+    gridRef?: React.RefObject<HTMLElement | null>;
+    onProductClick?: (e: React.MouseEvent, imgSrc: string) => void;
+    onImageError?: (e: React.SyntheticEvent<HTMLImageElement, Event>, index: number, title?: string) => void;
+    // optional: keep simple props undefined
+    title?: never;
+    price?: never;
+    shortDesc?: never;
+    image?: never;
+    delay?: never;
+    variant?: "arch" | "simple";
+  }
   | {
-      // simple legacy variant
-      product?: undefined;
-      title: string;
-      price: string;
-      shortDesc: string;
-      image?: string;
-      delay?: number;
-      // optional props not used in legacy mode
-      index?: never;
-      imgSrc?: never;
-      gridRef?: never;
-      onProductClick?: never;
-      onImageError?: never;
-      variant?: "simple" | "arch";
-    };
+    // simple legacy variant
+    product?: undefined;
+    title: string;
+    price: string;
+    shortDesc: string;
+    image?: string;
+    delay?: number;
+    // optional props not used in legacy mode
+    index?: never;
+    imgSrc?: never;
+    gridRef?: never;
+    onProductClick?: never;
+    onImageError?: never;
+    variant?: "simple" | "arch";
+  };
 
 export const ProductCard: React.FC<ProductCardProps> = (props) => {
   // detect mode
@@ -71,6 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
     // animated / homepage mode
     const { product, index, imgSrc, gridRef, onProductClick, onImageError, variant } = props as any;
     const controls = useAnimation();
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleDragEnd = async () => {
       await controls.start({ x: 0, y: 0, transition: { type: "spring", stiffness: 400, damping: 28 } });
@@ -101,16 +102,20 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
           <motion.img
             src={imgSrc}
             alt={product?.title ?? "product image"}
-            className="w-full h-full object-cover select-none"
+            className={`w-full h-full object-cover select-none transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             initial={{ scale: 1 }}
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4 + (index || 0) * 0.6, repeat: Infinity, ease: "easeInOut" }}
             loading="lazy"
             draggable={false}
+            onLoad={() => setImageLoaded(true)}
             onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
               if (onImageError) onImageError(e, index, product?.title);
             }}
           />
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-muted animate-pulse" />
+          )}
         </motion.div>
 
         <h3 className="font-bold text-lg mb-1">{product?.title}</h3>

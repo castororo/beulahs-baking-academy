@@ -354,7 +354,7 @@ export const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 1 }}
               className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 leansans-regular"
             >
-              Your one-stop destination for desserts and skill-building courses.
+              Your one-stop destination for desserts and skill-building workshops.
             </motion.p>
 
             {/* ---------- UPDATED: center & align buttons with above text ---------- */}
