@@ -6,7 +6,7 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen pt-24">
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background">
-        <div className="max-w-4xl mx-auto">
+        <div className="w-full mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

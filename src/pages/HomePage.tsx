@@ -76,8 +76,8 @@ const HomePage: React.FC = () => {
       g.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
       o.start();
       o.stop(now + 0.14);
-      setTimeout(() => ctx.close().catch(() => {}), 220);
-    } catch {}
+      setTimeout(() => ctx.close().catch(() => { }), 220);
+    } catch { }
   };
 
   const handleProductClick = (e: React.MouseEvent, imgSrc: string) => {
@@ -121,12 +121,12 @@ const HomePage: React.FC = () => {
         gsapRef.current = gsap;
         ctx = gsap.context(() => {
           gsap.to(".discover-desserts .parallax-img", { yPercent: -12, ease: "none", scrollTrigger: { trigger: ".discover-desserts", scrub: 0.8, start: "top bottom", end: "bottom top" } });
-          const tl = gsap.timeline({ scrollTrigger: { trigger: ".take-a-bite-section", start: "top 80%", end: "bottom 10%" } });
-          tl.from(".take-a-bite-section .product-card", { y: 30, opacity: 0, stagger: 0.12, duration: 0.7, ease: "power3.out" });
+          gsap.to(".discover-desserts .parallax-img", { yPercent: -12, ease: "none", scrollTrigger: { trigger: ".discover-desserts", scrub: 0.8, start: "top bottom", end: "bottom top" } });
+          // Removed GSAP animation for take-a-bite-section to match ShopPage and fix lag
         }, containerRef);
-      } catch {}
+      } catch { }
     })();
-    return () => { try { if (ctx) ctx.revert(); } catch {} if (scrollTrigger && scrollTrigger.kill) try { scrollTrigger.kill(); } catch {} };
+    return () => { try { if (ctx) ctx.revert(); } catch { } if (scrollTrigger && scrollTrigger.kill) try { scrollTrigger.kill(); } catch { } };
   }, []);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, index: number, productTitle?: string) => {
@@ -142,7 +142,7 @@ const HomePage: React.FC = () => {
 
       {/* Discover */}
       <section className="py-0 px-0 bg-gradient-to-b from-cream-100 to-background overflow-hidden relative discover-desserts">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-stretch">
             <motion.div initial={{ opacity: 0, x: -60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} className="relative w-full md:h-[100vh] lg:h-[100vh] overflow-hidden">
               {/* freshdesert hero image — removed overlay that added tint */}
@@ -176,7 +176,7 @@ const HomePage: React.FC = () => {
 
       {/* Skills */}
       <section className="py-0 px-0 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-stretch">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="flex flex-col justify-center text-center">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 costaline-font">Skills That Last a Lifetime</h2>
@@ -191,7 +191,7 @@ const HomePage: React.FC = () => {
               <motion.img
                 src={Bakingclass}
                 alt="Baking class preview"
-                className="absolute inset-0 w-full h-full object-cover rounded-tr-[28px] rounded-br-[28px]"
+                className="absolute inset-0 w-full h-full object-cover"
                 style={{ display: "block", backgroundColor: "transparent" }}
                 initial={{ scale: 1.03 }}
                 whileInView={{ scale: 1 }}
@@ -207,7 +207,7 @@ const HomePage: React.FC = () => {
 
       {/* Take a Bite — NO auto-scroll marquee, plain responsive grid */}
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background relative take-a-bite-section">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 costaline-font">Take a bite!</h2>
             <p className="text-muted-foreground leansans-regular">Handcrafted treats and class snippets from our students.</p>
@@ -215,19 +215,20 @@ const HomePage: React.FC = () => {
 
           <div className="relative overflow-hidden">
             {/* Plain grid (no marquee) — 2 columns on small, 4 on md+ */}
-            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
               {coursesData.products.map((product: any, index: number) => {
                 const imgSrc = getImageSrc(product, index);
                 return (
-                  <ProductCard
-                    key={product.id || index}
-                    product={product}
-                    index={index}
-                    imgSrc={imgSrc}
-                    gridRef={gridRef}
-                    onProductClick={handleProductClick}
-                    onImageError={handleImageError}
-                  />
+                  <div key={product.id || index} style={{ minWidth: 220, maxWidth: 260 }}>
+                    <ProductCard
+                      product={product}
+                      index={index}
+                      imgSrc={imgSrc}
+                      gridRef={gridRef}
+                      onProductClick={handleProductClick}
+                      onImageError={handleImageError}
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -263,13 +264,13 @@ const HomePage: React.FC = () => {
 
       {/* Testimonials + FAQ */}
       <section className="py-20 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <TestimonialsMarquee />
         </div>
       </section>
 
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <FAQAccordion />
         </div>
       </section>

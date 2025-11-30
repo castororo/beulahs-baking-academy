@@ -14,6 +14,11 @@ import mouthwateringcakes from "@/assets/mouthwatering-cakes.jpg";
 /* IMPORTANT: using the uploaded hero file path (project provided). */
 import shopHero from "@/assets/shop-hero.png";
 
+import plumCake from "@/assets/plum-cake.png";
+import teaCake from "@/assets/tea-cake.jpg";
+import cookies from "@/assets/cookies.png";
+import blondie from "@/assets/blondie.png";
+
 const fallbackImages = [yummybrownies, mouthwateringcakes, deliciouscupcakes, yummyblondies];
 const ORDER_FORM_URL = "https://forms.gle/AUT9suo7jX4Svo2Z9";
 
@@ -28,10 +33,10 @@ const ShopPage: React.FC = () => {
 
   // Combine existing products with extra ones (no price for new products)
   const extraProducts = [
-    { id: "plum-cake", title: "Plum Cake", shortDesc: "Moist spiced plum cake — perfect for gifting.", image: "" },
-    { id: "banana-bread", title: "Banana Bread", shortDesc: "Buttery banana bread with walnuts.", image: "" },
-    { id: "truffle", title: "Chocolate Truffle", shortDesc: "Rich bite-sized truffles for chocoholics.", image: "" },
-    { id: "lemon-bars", title: "Lemon Bars", shortDesc: "Tangy and sweet lemon squares.", image: "" },
+    { id: "plum-cake", title: "Plum Cake", shortDesc: "Moist spiced plum cake — perfect for gifting.", image: plumCake },
+    { id: "banana-bread", title: "Banana Bread", shortDesc: "Buttery banana bread with walnuts.", image: teaCake },
+    { id: "truffle", title: "Chocolate Truffle", shortDesc: "Rich bite-sized truffles for chocoholics.", image: cookies },
+    { id: "lemon-bars", title: "Lemon Bars", shortDesc: "Tangy and sweet lemon squares.", image: blondie },
   ];
   const allProducts = [...coursesData.products, ...extraProducts];
 
@@ -90,8 +95,8 @@ const ShopPage: React.FC = () => {
       g.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
       o.start();
       o.stop(now + 0.14);
-      setTimeout(() => ctx.close().catch(() => {}), 220);
-    } catch {}
+      setTimeout(() => ctx.close().catch(() => { }), 220);
+    } catch { }
   };
 
   const handleProductClick = (e: React.MouseEvent, imgSrc: string) => {
@@ -164,7 +169,7 @@ const ShopPage: React.FC = () => {
           border:1px solid rgba(0,0,0,0.05); pointer-events:none; z-index:1;
         }
         .arch-card::after {
-          content:''; position:absolute; left:8px; right:8px; top:6px; height:54%;
+          content:''; position:absolute; left:8px; right:8px; top:6px; bottom:6px;
           border-top-left-radius:9999px;border-top-right-radius:9999px;border-bottom:none;
           border:3px solid rgba(255,255,255,0.55); z-index:5; box-shadow:0 6px 16px rgba(0,0,0,0.06);
         }
@@ -183,7 +188,7 @@ const ShopPage: React.FC = () => {
           display: flex;
           gap: 20px;
           width: max-content;
-          align-items: center;
+          align-items: stretch;
           animation: all-products-marquee 20s linear infinite;
         }
         .all-products-track:hover {
@@ -201,14 +206,9 @@ const ShopPage: React.FC = () => {
           box-shadow: 0 12px 30px rgba(46,38,34,0.06);
           display:flex;
           flex-direction:column;
+          height: 100%;
         }
-        .product-square img {
-          width:100%;
-          height: 0;
-          padding-bottom: 100%;
-          object-fit: cover;
-          display:block;
-        }
+
         .product-square .meta {
           padding: 12px 14px;
           background: transparent;
@@ -237,18 +237,19 @@ const ShopPage: React.FC = () => {
           padding: 1.1rem 2.2rem;
           font-size: 1.05rem;
           border-radius: 0;
-          border: 2px solid var(--choco);
-          background: var(--choco);
-          color: var(--cream);
+          border: 1px solid var(--choco);
+          background: transparent;
+          color: var(--choco);
         }
         .preorder-order-btn:hover {
-          opacity: 0.95;
+          background: var(--choco);
+          color: var(--cream);
         }
       `}</style>
 
       {/* HERO */}
       <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 costaline-font" style={{ color: "var(--coco)", lineHeight: 1.02 }}>
@@ -282,14 +283,14 @@ const ShopPage: React.FC = () => {
 
       {/* TAKE A BITE — homepage-style responsive grid */}
       <section className="py-12 px-6 take-a-bite-section">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="py-8 text-center mb-6">
             <h2 className="text-4xl md:text-5xl font-bold costaline-font" style={{ color: "var(--coco)" }}>Take a bite!</h2>
             <p className="text-muted-foreground">Handcrafted treats and class snippets from our students.</p>
           </motion.div>
 
           <div className="relative overflow-hidden">
-            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
               {coursesData.products.map((product: any, index: number) => {
                 const imgSrc = getImageSrc(product, index);
                 return (
@@ -347,7 +348,7 @@ const ShopPage: React.FC = () => {
 
       {/* ALL PRODUCTS — continuous carousel (right → left) */}
       <section className="py-8 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <div className="py-8 text-center mb-6">
             <h3 className="text-3xl font-bold costaline-font" style={{ color: "var(--coco)" }}>All Products</h3>
             <p className="text-muted-foreground">Explore more of our handcrafted delights.</p>
@@ -369,7 +370,7 @@ const ShopPage: React.FC = () => {
                     onClick={(e) => handleProductClick(e as any, imgSrc)}
                     role="button"
                     tabIndex={0}
-                    onKeyDown={() => {}}
+                    onKeyDown={() => { }}
                   >
                     <div className="product-square" aria-hidden={false}>
                       <div style={{ position: "relative", width: "100%", paddingBottom: "100%", overflow: "hidden" }}>
@@ -395,21 +396,20 @@ const ShopPage: React.FC = () => {
         </div>
       </section>
 
-      {/* PRE-ORDER - larger Order Now button */}
-      <section className="py-20 px-6" style={{ background: "linear-gradient(180deg, var(--cream), #F6ECE3)" }}>
+      <section className="py-20 px-6" style={{ background: "var(--cream)" }}>
         <div className="max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 costaline-font">Pre-order now</h2>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-left">
+            <h2 className="text-5xl md:text-6xl font-normal mb-8 costaline-font" style={{ color: "var(--choco)" }}>Pre-order now</h2>
 
-            <p className="text-lg text-muted-foreground mb-4 leading-relaxed max-w-2xl mx-auto leansans-regular">
+            <p className="text-lg text-muted-foreground mb-4 leading-relaxed max-w-2xl leansans-regular">
               At Sweet Treats, every dessert begins in a warm home kitchen — not a factory.
             </p>
 
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto leansans-regular">
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl leansans-regular">
               We believe the best memories come from fresh, flavorful, lovingly baked goodies.
             </p>
 
-            <Button size="lg" className="preorder-order-btn leansans-bold" onClick={handleGlobalOrder}>
+            <Button size="lg" className="preorder-order-btn leansans-regular" onClick={handleGlobalOrder}>
               Order Now
             </Button>
           </motion.div>

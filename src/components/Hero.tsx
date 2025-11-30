@@ -227,7 +227,7 @@ export const Hero: React.FC = () => {
       setTimeout(() => {
         try {
           ctx.close();
-        } catch {}
+        } catch { }
       }, 200);
     } catch {
       // ignore
@@ -292,19 +292,19 @@ export const Hero: React.FC = () => {
             animate={
               s.flee
                 ? {
-                    x: s.dx ?? 0,
-                    y: s.dy ?? -60,
-                    scale: 1.2,
-                    opacity: [1, 0.85, 0.4],
-                    rotate: Math.random() * 45 - 22,
-                  }
+                  x: s.dx ?? 0,
+                  y: s.dy ?? -60,
+                  scale: 1.2,
+                  opacity: [1, 0.85, 0.4],
+                  rotate: Math.random() * 45 - 22,
+                }
                 : {
-                    x: 0,
-                    y: [0, -12, 0],
-                    scale: s.size,
-                    opacity: [0.6, 1, 0.6],
-                    rotate: [0, 8, 0],
-                  }
+                  x: 0,
+                  y: [0, -12, 0],
+                  scale: s.size,
+                  opacity: [0.6, 1, 0.6],
+                  rotate: [0, 8, 0],
+                }
             }
             transition={
               s.flee
@@ -320,7 +320,7 @@ export const Hero: React.FC = () => {
       })}
 
       {/* Main Container */}
-      <div className="justify-evenly relative max-w-7xl mx-auto px-6 py-12 md:py-20">
+      <div className="justify-evenly relative w-full mx-auto px-6 py-12 md:py-20">
         <div className="justify-evenly grid md:grid-cols-2 gap-12 items-center">
           {/* LEFT CONTENT */}
           <motion.div
@@ -341,7 +341,7 @@ export const Hero: React.FC = () => {
                     word === "Beulah" || word === "Academy" || word === "Skill" || word === "Training"
                       ? "brand-font text-chocolate"
                       : "leansans-bold"
-                  }`}
+                    }`}
                 >
                   {word}
                 </motion.span>
@@ -374,7 +374,7 @@ export const Hero: React.FC = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <UiButton size="lg" variant="cream" className="rounded-none text-lg px-8 py-6" onClick={() => navigate("/shop")}>
                   Click here to shop
-                </UiButton> 
+                </UiButton>
               </motion.div>
             </motion.div>
           </motion.div>

@@ -69,10 +69,10 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="relative pt-28 pb-12">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full mx-auto px-6">
 
           {/* Top Row */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 relative">
             <div className="text-center md:text-left">
               <h2 className="footer-heading costaline-font text-3xl md:text-4xl lg:text-5xl font-bold mb-4 footer-subtle">
                 We love to connect with you
@@ -94,7 +94,7 @@ export const Footer: React.FC = () => {
 
             {/* Draggable Cake */}
             <motion.div
-              className="flex-shrink-0"
+              className="flex-shrink-0 md:absolute md:right-0 md:-top-20"
               drag
               dragElastic={0.2}
               dragMomentum={false}
@@ -106,7 +106,7 @@ export const Footer: React.FC = () => {
               <img
                 src={footerCake}
                 alt="Slice of chocolate cake"
-                className="w-44 md:w-56 object-contain drop-shadow-2xl select-none pointer-events-none"
+                className="w-56 md:w-72 object-contain drop-shadow-2xl select-none pointer-events-none"
                 style={{ transform: "translateY(-6px)" }}
                 draggable="false"
               />

@@ -46,7 +46,7 @@ const getCourseImage = (courseId: string, index: number) => {
     "plum-cake-workshop": coursePlumCake,
     "brownie-workshop": courseBrownie,
     "spoken-english": courseSpoken,
-    "cursive-handwriting": courseCursive,
+    "cursive-writing": courseCursive,
   };
   const img = map[courseId];
   if (img && typeof img === "string" && img.length > 0) return img;
@@ -69,17 +69,21 @@ const CoursesPage: React.FC = () => {
         .leansans-bold { font-family: 'Leansans-Bold', sans-serif; font-weight:700; }
 
         /* Section-level Book Now button (big) */
+        /* Section-level Book Now button (big) */
         .section-book-btn {
-          padding: 0.9rem 1.8rem;
-          font-size: 0.98rem;
+          padding: 1.2rem 3rem;
+          font-size: 1.2rem;
           border-radius: 0;
           border: 2px solid var(--choco);
           background: transparent;
           color: var(--choco);
+          transition: all 0.3s ease;
         }
         .section-book-btn:hover {
           background: var(--choco);
           color: var(--cream);
+          transform: scale(1.05);
+          box-shadow: 0 10px 20px rgba(46,38,34,0.15);
         }
 
         /* Final CTA big Book Now button (filled) */
@@ -93,14 +97,7 @@ const CoursesPage: React.FC = () => {
         }
         .booknow-btn:hover { opacity: 0.95; }
 
-        /* small grid helpers for course cards with images */
-        .course-image {
-          width: 100%;
-          height: 220px;
-          object-fit: cover;
-          border-radius: 12px;
-          display: block;
-        }
+
 
         /* layout for final CTA row (image + action) */
         .final-cta-grid {
@@ -116,7 +113,7 @@ const CoursesPage: React.FC = () => {
 
       {/* Hero Section */}
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left hero image */}
             <motion.div
@@ -166,7 +163,7 @@ const CoursesPage: React.FC = () => {
 
       {/* Baking Courses */}
       <section className="py-16 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -179,22 +176,15 @@ const CoursesPage: React.FC = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
             {coursesData.bakingCourses.map((course, index) => (
-              <div key={course.id} className="space-y-3">
-                <img
-                  src={getCourseImage(course.id, index)}
-                  alt={course.title}
-                  className="course-image"
-                  onError={(e) => {
-                    // fallback to generic fallbackImages if asset path missing
-                    (e.currentTarget as HTMLImageElement).src = fallbackImages[index % fallbackImages.length];
-                  }}
-                />
+              <div key={course.id} className="h-full">
                 <CourseCard
                   title={course.title}
                   duration={course.duration}
                   tag={course.tag}
                   shortDesc={course.shortDesc}
                   delay={index * 0.08}
+                  image={getCourseImage(course.id, index)}
+                  imageAlt={course.title}
                 />
               </div>
             ))}
@@ -258,7 +248,7 @@ const CoursesPage: React.FC = () => {
 
       {/* Other Courses */}
       <section className="py-16 px-6 bg-background">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -271,21 +261,15 @@ const CoursesPage: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-8 mb-6">
             {coursesData.otherCourses.map((course, index) => (
-              <div key={course.id} className="space-y-3">
-                <img
-                  src={getCourseImage(course.id, index)}
-                  alt={course.title}
-                  className="course-image"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = fallbackImages[index % fallbackImages.length];
-                  }}
-                />
+              <div key={course.id} className="h-full">
                 <CourseCard
                   title={course.title}
                   duration={course.duration}
                   tag={course.tag}
                   shortDesc={course.shortDesc}
                   delay={index * 0.08}
+                  image={getCourseImage(course.id, index)}
+                  imageAlt={course.title}
                 />
               </div>
             ))}
@@ -327,7 +311,7 @@ const CoursesPage: React.FC = () => {
 
       {/* CTA Section - image + single large Book Now (final) */}
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-cream-300">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full mx-auto">
           <div className="final-cta-grid">
             <div>
               <img
