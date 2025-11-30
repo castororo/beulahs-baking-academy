@@ -145,8 +145,19 @@ const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-stretch">
             <motion.div initial={{ opacity: 0, x: -60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} className="relative w-full md:h-[100vh] lg:h-[100vh] overflow-hidden">
-              <motion.img src={freshdesert} alt="Fresh desserts preview" className="absolute inset-0 w-full h-full object-cover parallax-img rounded-tl-[28px] rounded-bl-[28px]" initial={{ scale: 1.06 }} whileInView={{ scale: 1 }} transition={{ duration: 1.2 }} loading="lazy" onError={(e) => handleImageError(e, 0, "Discover hero")} />
-              <div className="absolute inset-0 bg-gradient-to-br from-chocolate/10 to-transparent" />
+              {/* freshdesert hero image — removed overlay that added tint */}
+              <motion.img
+                src={freshdesert}
+                alt="Fresh desserts preview"
+                className="absolute inset-0 w-full h-full object-cover parallax-img rounded-tl-[28px] rounded-bl-[28px]"
+                style={{ display: "block", backgroundColor: "transparent" }}
+                initial={{ scale: 1.06 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 1.2 }}
+                loading="lazy"
+                onError={(e) => handleImageError(e, 0, "Discover hero")}
+              />
+              {/* overlay removed to avoid tint: <div className="absolute inset-0 bg-gradient-to-br from-chocolate/10 to-transparent" /> */}
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.1 }} className="flex flex-col justify-center text-center">
@@ -157,8 +168,6 @@ const HomePage: React.FC = () => {
 
               <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 300 }}>
                 <UiButton variant="cream" className="rounded-none" onClick={() => navigate("/shop")}>Click here to shop</UiButton>
-
-                {/* <UiButton variant="outline" className="border-2 border-chocolate text-chocolate hover:bg-chocolate hover:text-cream-50 rounded-none" onClick={() => navigate("/shop")}>Click here to shop</UiButton> */}
               </motion.div>
             </motion.div>
           </div>
@@ -166,7 +175,6 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Skills */}
-      {/* <section className="py-20 px-6 bg-background relative overflow-hidden"> */}
       <section className="py-0 px-0 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-stretch">
@@ -179,14 +187,25 @@ const HomePage: React.FC = () => {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.1 }} className="relative w-full md:h-[100vh] lg:h-[100vh] overflow-hidden">
-              <motion.img src={Bakingclass} alt="Baking class preview" className="absolute inset-0 w-full h-full object-cover rounded-tr-[28px] rounded-br-[28px]" initial={{ scale: 1.03 }} whileInView={{ scale: 1 }} transition={{ duration: 1.2 }} loading="lazy" onError={(e) => handleImageError(e, 1, "Skills image")} />
-              <div className="absolute inset-0 bg-gradient-to-br from-chocolate/10 to-transparent" />
+              {/* Bakingclass image — overlay removed as well */}
+              <motion.img
+                src={Bakingclass}
+                alt="Baking class preview"
+                className="absolute inset-0 w-full h-full object-cover rounded-tr-[28px] rounded-br-[28px]"
+                style={{ display: "block", backgroundColor: "transparent" }}
+                initial={{ scale: 1.03 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 1.2 }}
+                loading="lazy"
+                onError={(e) => handleImageError(e, 1, "Skills image")}
+              />
+              {/* removed overlay that previously added a light tint */}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Take a Bite */}
+      {/* Take a Bite — NO auto-scroll marquee, plain responsive grid */}
       <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background relative take-a-bite-section">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
@@ -195,13 +214,20 @@ const HomePage: React.FC = () => {
           </motion.div>
 
           <div className="relative overflow-hidden">
-            <div className="flex gap-6 will-change-transform animate-marquee pause-on-hover" style={{ width: "max-content", alignItems: "flex-start" }} ref={gridRef}>
-              {coursesData.products.concat(coursesData.products).map((product: any, index: number) => {
-                const imgSrc = getImageSrc(product, index % coursesData.products.length);
+            {/* Plain grid (no marquee) — 2 columns on small, 4 on md+ */}
+            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {coursesData.products.map((product: any, index: number) => {
+                const imgSrc = getImageSrc(product, index);
                 return (
-                  <div key={`${product.id}_${index}`} style={{ minWidth: 220, maxWidth: 260 }}>
-                    <ProductCard product={product} index={index % coursesData.products.length} imgSrc={imgSrc} gridRef={gridRef} onProductClick={handleProductClick} onImageError={handleImageError} />
-                  </div>
+                  <ProductCard
+                    key={product.id || index}
+                    product={product}
+                    index={index}
+                    imgSrc={imgSrc}
+                    gridRef={gridRef}
+                    onProductClick={handleProductClick}
+                    onImageError={handleImageError}
+                  />
                 );
               })}
             </div>
@@ -248,12 +274,8 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* inline styles copied from your previous file (arch, marquee) */}
+      {/* inline styles copied from your previous file (arch) */}
       <style>{`
-        @keyframes marquee-left { 0% { transform: translateX(0);} 100% { transform: translateX(-50%);} }
-        .animate-marquee { display:flex; align-items:center; gap:24px; animation: marquee-left 18s linear infinite; }
-        .pause-on-hover:hover { animation-play-state: paused !important; }
-
         .arch-card { position: relative; aspect-ratio: 3 / 4; border-radius: 9999px 9999px 0 0; overflow: hidden; }
         .arch-card::before { content:''; position:absolute; inset:0; border-radius:inherit; border-bottom:none; border:1px solid rgba(0,0,0,0.05); pointer-events:none; z-index:1; }
         .arch-card::after { content:''; position:absolute; left:8px; right:8px; top:6px; height:54%; border-top-left-radius:9999px; border-top-right-radius:9999px; border-bottom-left-radius:0; border-bottom-right-radius:0; border:3px solid rgba(255,255,255,0.55); border-bottom:none; pointer-events:none; z-index:5; box-shadow:0 6px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.12); mix-blend-mode: screen; }

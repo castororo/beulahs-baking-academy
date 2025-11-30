@@ -150,7 +150,7 @@ export const Footer: React.FC = () => {
 
               <div className="space-y-2 leansans-regular">
                 <p className="text-sm footer-subtle">7502699771</p>
-                <p className="text-sm footer-subtle">beulah_james2024</p>
+                <p className="text-sm footer-subtle">beulahjames@gmail.com</p>
 
                 <a
                   href="https://www.instagram.com/beulah_james2024/"

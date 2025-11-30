@@ -357,8 +357,14 @@ export const Hero: React.FC = () => {
               Your one-stop destination for desserts and skill-building courses.
             </motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.2 }} className="items-center justify-evenly flex flex-col sm:flex-row gap-4  md:justify-start">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="justify-evenly" >
+            {/* ---------- UPDATED: center & align buttons with above text ---------- */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+              className="flex items-center justify-center flex-col sm:flex-row gap-4 max-w-xl mx-auto md:mx-0"
+            >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex">
                 <Button size="lg" className=" bg-chocolate hover:bg-chocolate-dark text-cream-50 text-lg px-10 py-6 shadow-xl leansans-bold" onClick={() => window.open("https://forms.gle/L7r2nXz9SfwBDi9x9", "_blank")}>
                   Book Now
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -366,13 +372,9 @@ export const Hero: React.FC = () => {
               </motion.div>
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                {/* <Button size="lg" variant="outline" className="border-2 border-chocolate text-chocolate hover:bg-chocolate hover:text-cream-50 text-lg px-8 py-6 leansans-bold" onClick={() => navigate("/shop")}>
+                <UiButton size="lg" variant="cream" className="rounded-none text-lg px-8 py-6" onClick={() => navigate("/shop")}>
                   Click here to shop
-                </Button> */}
-                <UiButton size="lg" variant="cream" className="rounded-none text-lg px-8 py-6" onClick={() => navigate("/shop")}>Click here to shop</UiButton> 
-                {/* <Button size="lg" variant="outline" className="border-2 border-chocolate text-chocolate hover:bg-chocolate hover:text-cream-50 text-lg px-8 py-6 leansans-bold" onClick={() => navigate("/shop")}>
-                  Click here to shop
-                </Button> */}
+                </UiButton> 
               </motion.div>
             </motion.div>
           </motion.div>

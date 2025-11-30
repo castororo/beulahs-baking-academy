@@ -1,7 +1,7 @@
 // src/pages/ShopPage.tsx
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ProductCard } from "@/components/ProductCard";
+import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import coursesData from "@/data/courses.json";
 
@@ -11,9 +11,7 @@ import yummybrownies from "@/assets/yummy brownies.jpg";
 import deliciouscupcakes from "@/assets/Delicious cupcakes.jpg";
 import mouthwateringcakes from "@/assets/mouthwatering-cakes.jpg";
 
-/* IMPORTANT: using the uploaded hero file path (project provided). 
-   Per your instructions, using the local path that was uploaded:
-*/
+/* IMPORTANT: using the uploaded hero file path (project provided). */
 import shopHero from "@/assets/shop-hero.png";
 
 const fallbackImages = [yummybrownies, mouthwateringcakes, deliciouscupcakes, yummyblondies];
@@ -24,7 +22,7 @@ const uniqueId = (prefix = "id") => `${prefix}_${Date.now()}_${idCounter++}`;
 
 const ShopPage: React.FC = () => {
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const productsMarqueeRef = useRef<HTMLDivElement | null>(null);
+  const productsCarouselRef = useRef<HTMLDivElement | null>(null);
   const [clones, setClones] = useState<{ id: string; img: string; x: number; y: number; w: number; h: number }[]>([]);
   const [particles, setParticles] = useState<{ id: string; x: number; y: number; color?: string }[]>([]);
 
@@ -139,7 +137,6 @@ const ShopPage: React.FC = () => {
   return (
     <div className="min-h-screen pt-24" style={{ background: "var(--cream)" }}>
       <style>{`
-        
         :root {
           --cream: #F2E6DC;
           --choco: #2E2622;
@@ -148,33 +145,62 @@ const ShopPage: React.FC = () => {
         }
 
         body { background: var(--cream);}
+
         .costaline-font { font-family: 'Costaline', serif; }
         .leansans-regular { font-family: 'Leansans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
         .leansans-bold { font-family: 'Leansans-Bold', sans-serif; font-weight:700; }
 
-        /* TAKE A BITE marquee (left→right moving leftwards) */
-        @keyframes marquee-left {
-          0% { transform: translateX(0); }
+        /* arch-card fallback used by ProductCard in Take a bite */
+        .arch-card {
+          position: relative;
+          aspect-ratio: 3/4;
+          border-radius: 9999px 9999px 0 0;
+          overflow: hidden;
+          max-width: 260px;
+        }
+        .arch-card::before {
+          content: '';
+          position:absolute; inset:0; border-radius:inherit; border-bottom:none;
+          border:1px solid rgba(0,0,0,0.05); pointer-events:none; z-index:1;
+        }
+        .arch-card::after {
+          content:''; position:absolute; left:8px; right:8px; top:6px; height:54%;
+          border-top-left-radius:9999px;border-top-right-radius:9999px;border-bottom:none;
+          border:3px solid rgba(255,255,255,0.55); z-index:5; box-shadow:0 6px 16px rgba(0,0,0,0.06);
+        }
+        .arch-decor { position:absolute; left:0; right:0; top:0; height:28%; background:linear-gradient(180deg, rgba(255,255,255,0.06), transparent); z-index:4; pointer-events:none; }
+
+        /* All Products carousel: right → left marquee */
+        @keyframes all-products-marquee {
+          0% { transform: translateX(0%); }
           100% { transform: translateX(-50%); }
         }
-        .animate-marquee {
-          display:flex;
-          gap:24px;
-          align-items:flex-start;
-          animation: marquee-left 18s linear infinite;
+        .all-products-viewport {
+          overflow: hidden;
+          width: 100%;
         }
-        .pause-on-hover:hover { animation-play-state: paused !important; }
-
-        /* Square product card for All Products carousel */
+        .all-products-track {
+          display: flex;
+          gap: 20px;
+          width: max-content;
+          align-items: center;
+          animation: all-products-marquee 20s linear infinite;
+        }
+        .all-products-track:hover {
+          animation-play-state: paused;
+        }
+        .all-product-item {
+          flex: 0 0 280px; /* fixed width so every item is same size */
+          max-width: 280px;
+          cursor: pointer;
+        }
         .product-square {
-          width: 280px;
           background: #fff;
           border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 12px 30px rgba(46,38,34,0.06);
           display:flex;
           flex-direction:column;
-          cursor: pointer;
         }
         .product-square img {
           width:100%;
@@ -197,34 +223,13 @@ const ShopPage: React.FC = () => {
           color: rgba(46,38,34,0.75);
         }
 
-        /* arch-card fallback used by ProductCard in Take a bite */
-        .arch-card {
-          position: relative;
-          aspect-ratio: 3/4;
-          border-radius: 9999px 9999px 0 0;
-          overflow: hidden;
-          max-width: 260px;
-        }
-        .arch-card::before {
-          content: '';
-          position:absolute; inset:0; border-radius:inherit; border-bottom:none;
-          border:1px solid rgba(0,0,0,0.05); pointer-events:none; z-index:1;
-        }
-        .arch-card::after {
-          content:''; position:absolute; left:8px; right:8px; top:6px; height:54%;
-          border-top-left-radius:9999px;border-top-right-radius:9999px;border-bottom:none;
-          border:3px solid rgba(255,255,255,0.55); z-index:5; box-shadow:0 6px 16px rgba(0,0,0,0.06);
-        }
-        .arch-decor { position:absolute; left:0; right:0; top:0; height:28%; background:linear-gradient(180deg, rgba(255,255,255,0.06), transparent); z-index:4; pointer-events:none; }
-
         /* responsive tweaks */
         @media (max-width:1100px) {
-          .product-square { width: 220px; }
-          .animate-marquee { animation-duration: 22s; }
+          .arch-card { max-width: 220px; }
+          .all-product-item { flex: 0 0 220px; max-width: 220px; }
         }
         @media (max-width:640px) {
-          .product-square { width: 180px; }
-          .animate-marquee { animation-duration: 16s; }
+          .all-product-item { flex: 0 0 180px; max-width: 180px; }
         }
 
         /* Preorder big button */
@@ -256,7 +261,6 @@ const ShopPage: React.FC = () => {
               </p>
             </motion.div>
 
-            {/* animated hero image - bigger and subtle float */}
             <motion.div
               initial={{ opacity: 0, scale: 0.98, y: -6 }}
               animate={{ opacity: 1, scale: 1.04, y: -2 }}
@@ -276,7 +280,7 @@ const ShopPage: React.FC = () => {
         </div>
       </section>
 
-      {/* TAKE A BITE - marquee (leftwards) */}
+      {/* TAKE A BITE — homepage-style responsive grid */}
       <section className="py-12 px-6 take-a-bite-section">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="py-8 text-center mb-6">
@@ -285,29 +289,27 @@ const ShopPage: React.FC = () => {
           </motion.div>
 
           <div className="relative overflow-hidden">
-            <div className="animate-marquee pause-on-hover" ref={gridRef} style={{ width: "max-content", alignItems: "flex-start" }}>
-              {coursesData.products.concat(coursesData.products).map((product: any, idx: number) => {
-                const img = getImageSrc(product, idx % coursesData.products.length);
+            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {coursesData.products.map((product: any, index: number) => {
+                const imgSrc = getImageSrc(product, index);
                 return (
-                  <div key={`${product.id}_${idx}`} style={{ minWidth: 220, maxWidth: 260 }}>
+                  <div key={`${product.id || index}`} style={{ minWidth: 220, maxWidth: 260 }}>
                     <ProductCard
                       product={product}
-                      index={idx % coursesData.products.length}
-                      imgSrc={img}
+                      index={index}
+                      imgSrc={imgSrc}
                       gridRef={gridRef}
                       onProductClick={handleProductClick}
-                      onImageError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => handleImageError(e, idx % coursesData.products.length)}
+                      onImageError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => handleImageError(e, index)}
                     />
                   </div>
                 );
               })}
             </div>
           </div>
-
-          {/* removed local "Order Now" here per request; only Pre-order CTA remains */}
         </div>
 
-        {/* clones & particles (same behavior as homepage) */}
+        {/* clones & particles */}
         {clones.map((c) => (
           <motion.div
             key={c.id}
@@ -343,7 +345,7 @@ const ShopPage: React.FC = () => {
         )}
       </section>
 
-      {/* ALL PRODUCTS - square cards in right→left marquee */}
+      {/* ALL PRODUCTS — continuous carousel (right → left) */}
       <section className="py-8 px-6 bg-background">
         <div className="max-w-7xl mx-auto">
           <div className="py-8 text-center mb-6">
@@ -351,26 +353,25 @@ const ShopPage: React.FC = () => {
             <p className="text-muted-foreground">Explore more of our handcrafted delights.</p>
           </div>
 
-          <div className="relative overflow-hidden">
-            {/* duplicate allProducts to loop seamlessly */}
+          <div className="all-products-viewport">
+            {/* track duplicates the list so animation loops seamlessly */}
             <div
-              className="animate-marquee pause-on-hover"
-              ref={productsMarqueeRef}
-              style={{ width: "max-content", alignItems: "center" }}
+              className="all-products-track"
+              ref={productsCarouselRef}
+              aria-hidden={false}
             >
-              {allProducts.concat(allProducts).map((product: any, idx: number) => {
+              {[...allProducts, ...allProducts].map((product: any, idx: number) => {
                 const imgSrc = getImageSrc(product, idx % allProducts.length);
                 return (
                   <div
-                    key={`${product.id}_all_${idx}`}
-                    style={{ minWidth: 280, maxWidth: 280, marginRight: 20 }}
+                    key={`${product.id || idx}_carousel_${idx}`}
+                    className="all-product-item"
                     onClick={(e) => handleProductClick(e as any, imgSrc)}
                     role="button"
                     tabIndex={0}
                     onKeyDown={() => {}}
                   >
                     <div className="product-square" aria-hidden={false}>
-                      {/* image as square using padding-bottom trick */}
                       <div style={{ position: "relative", width: "100%", paddingBottom: "100%", overflow: "hidden" }}>
                         <img
                           src={imgSrc}
