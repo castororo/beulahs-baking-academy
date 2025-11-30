@@ -191,7 +191,7 @@ export const Footer: React.FC = () => {
               <p>© 2025 Beulah Skill Training Academy — All rights reserved</p>
 
               <div className="flex items-center gap-4">
-                <a href="#" className="footer-link text-sm leansans-regular">
+                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="footer-link text-sm leansans-regular">
                   Privacy Policy
                 </a>
                 <span
@@ -200,7 +200,7 @@ export const Footer: React.FC = () => {
                 >
                   |
                 </span>
-                <a href="#" className="footer-link text-sm leansans-regular">
+                <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="footer-link text-sm leansans-regular">
                   Terms of Service
                 </a>
               </div>

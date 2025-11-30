@@ -11,6 +11,8 @@ import HomePage from "./pages/HomePage";
 import WorkshopsPage from "./pages/WorkshopsPage";
 import ShopPage from "./pages/ShopPage";
 import ContactPage from "./pages/ContactPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +59,22 @@ const App = () => (
                   element={
                     <PageErrorBoundary pageName="Contact">
                       <ContactPage />
+                    </PageErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/privacy-policy"
+                  element={
+                    <PageErrorBoundary pageName="Privacy Policy">
+                      <PrivacyPolicy />
+                    </PageErrorBoundary>
+                  }
+                />
+                <Route
+                  path="/terms-of-service"
+                  element={
+                    <PageErrorBoundary pageName="Terms of Service">
+                      <TermsOfService />
                     </PageErrorBoundary>
                   }
                 />

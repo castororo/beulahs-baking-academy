@@ -5,7 +5,7 @@ import { CourseCard } from "@/components/CourseCard";
 import { CourseCardSkeleton } from "@/components/CourseCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { Award, BookOpen, Clock } from "lucide-react";
-import coursesData from "@/data/courses.json";
+import coursesData from "@/data/workshops.json";
 import styles from "./CoursesPage.module.css";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useButtonLoading } from "@/hooks/use-button-loading";
@@ -87,7 +87,7 @@ const CoursesPage: React.FC = () => {
             {/* Left hero image */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.9 }}
               className="hidden md:flex items-center justify-center"
             >
@@ -150,7 +150,7 @@ const CoursesPage: React.FC = () => {
           ) : (
             <div className={styles.coursesViewport}>
               <div className={styles.coursesTrack}>
-                {[...coursesData.bakingCourses, ...coursesData.bakingCourses].map((course, index) => (
+                {[...coursesData.bakingWorkshops, ...coursesData.bakingWorkshops].map((course, index) => (
                   <div key={`${course.id}_${index}`} className={styles.courseItem}>
                     <CourseCard
                       title={course.title}
@@ -158,7 +158,7 @@ const CoursesPage: React.FC = () => {
                       tag={course.tag}
                       shortDesc={course.shortDesc}
                       delay={0}
-                      image={getCourseImage(course.id, index % coursesData.bakingCourses.length)}
+                      image={getCourseImage(course.id, index % coursesData.bakingWorkshops.length)}
                       imageAlt={course.title}
                     />
                   </div>
@@ -252,7 +252,7 @@ const CoursesPage: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {coursesData.otherCourses.map((course, index) => (
+              {coursesData.otherWorkshops.map((course, index) => (
                 <div key={course.id} className="w-full">
                   <CourseCard
                     title={course.title}
