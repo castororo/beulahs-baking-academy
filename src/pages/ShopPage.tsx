@@ -84,9 +84,9 @@ const ShopPage: React.FC = () => {
     <div className={`min-h-screen pt-24 ${styles.shopPageContainer}`}>
 
       {/* HERO */}
-      <section className="py-20 px-6">
+      <section className="py-10 px-9">
         <div className="w-full mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="pl-5 grid md:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
               <h1 className={`text-5xl md:text-6xl lg:text-7xl font-bold mb-6 costaline-font ${styles.heroTitle}`}>
                 Homemade cakes & brownies

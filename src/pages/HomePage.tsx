@@ -15,10 +15,10 @@ import freshdesert from "@/assets/shop.jpg";
 import Bakingclass from "@/assets/home.jpg";
 import workshopsData from "@/data/workshops.json";
 
-import yummyblondies from "@/assets/yummy blondies.png";
-import yummybrownies from "@/assets/yummy brownies.jpg";
+import yummyblondies from "@/assets/blondie.png";
+import yummybrownies from "@/assets/brownies2.png";
 import deliciouscupcakes from "@/assets/Delicious cupcakes.jpg";
-import mouthwateringcakes from "@/assets/mouthwatering-cakes.jpg";
+import mouthwateringcakes from "@/assets/cake-slices1.png";
 
 import ProductCard from "@/components/ProductCard";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
@@ -129,7 +129,7 @@ const HomePage: React.FC = () => {
               {/* overlay removed to avoid tint: <div className="absolute inset-0 bg-gradient-to-br from-chocolate/10 to-transparent" /> */}
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.1 }} className="flex flex-col justify-center text-center">
+            <motion.div initial={{ opacity: 0, x: 60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.1 }} className="pr-10 flex flex-col justify-center text-center">
               {/* section header uses Costaline (header font) */}
               <h2 className="text-4xl md:text-5xl font-bold mb-6 costaline-font">Discover desserts that speak the language of love.</h2>
               {/* small lead uses Leansans bold */}
@@ -148,8 +148,8 @@ const HomePage: React.FC = () => {
         <div className="w-full mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-stretch">
             <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="flex flex-col justify-center text-center">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 costaline-font">Skills That Last a Lifetime</h2>
-              <p className="text-lg leansans-bold mb-8 leading-relaxed">JOIN OUR ONLINE CERTIFIED WORKSHOPS ON BAKING AND MORE</p>
+              <h2 className="pl-5 text-4xl md:text-5xl font-bold mb-6 costaline-font">Skills That Last a Lifetime</h2>
+              <p className="pl-3 text-lg leansans-bold mb-8 leading-relaxed">JOIN OUR ONLINE CERTIFIED WORKSHOPS ON BAKING AND MORE</p>
               <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 280 }}>
                 <UiButton variant="cream" className="rounded-none" onClick={() => navigate("/workshops")}>Learn More</UiButton>
               </motion.div>
@@ -181,7 +181,7 @@ const HomePage: React.FC = () => {
             <p className="text-muted-foreground leansans-regular">Handcrafted treats and class snippets from our students.</p>
           </motion.div>
 
-          <div className="relative overflow-hidden">
+          <div className="py-4 relative overflow-hidden">
             {/* Plain grid (no marquee) — 2 columns on small, 4 on md+ */}
             <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
               {isLoadingProducts ? (

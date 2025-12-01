@@ -34,7 +34,7 @@ export const Header = () => {
   const links = [
     { to: "/", label: "HOME" },
     { to: "/shop", label: "SHOP" },
-    { to: "/workshops", label: "WORKSHOPS" },
+    { to: "/academy", label: "ACADEMY" },
     { to: "/contact", label: "CONTACT" },
   ];
 
@@ -51,8 +51,7 @@ export const Header = () => {
           {/* Logo: use brand-font (Tovar / Tovar replacement)/////jb changes */}
           <NavLink
             to="/"
-            className="text-2xl md:text-4xl font-bold text-chocolate brand-font"
-            aria-label="Beulah home"
+            className="text-2xl px-3 py-3 md:text-4xl font-bold text-chocolate brand-font"
           >
             Beulah
           </NavLink>

@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import PageErrorBoundary from "@/components/PageErrorBoundary";
 import HomePage from "./pages/HomePage";
-import WorkshopsPage from "./pages/WorkshopsPage";
+import AcademyPage from "./pages/AcademyPage";
 import ShopPage from "./pages/ShopPage";
 import ContactPage from "./pages/ContactPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -39,10 +39,10 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/workshops"
+                  path="/academy"
                   element={
-                    <PageErrorBoundary pageName="Workshops">
-                      <WorkshopsPage />
+                    <PageErrorBoundary pageName="Academy">
+                      <AcademyPage />
                     </PageErrorBoundary>
                   }
                 />

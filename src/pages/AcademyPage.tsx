@@ -1,12 +1,13 @@
-// src/pages/WorkshopsPage.tsx
+// src/pages/AcademyPage.tsx
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { WorkshopCard } from "@/components/WorkshopCard";
 import { WorkshopCardSkeleton } from "@/components/WorkshopCardSkeleton";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import { Button } from "@/components/ui/button";
 import { Award, BookOpen, Clock } from "lucide-react";
 import workshopsData from "@/data/workshops.json";
-import styles from "./WorkshopsPage.module.css";
+import styles from "./AcademyPage.module.css";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { useButtonLoading } from "@/hooks/use-button-loading";
 import { Loader2 } from "lucide-react";
@@ -16,7 +17,7 @@ import { Loader2 } from "lucide-react";
    - Baking workshops: brownie, cupcake, tea-cake, plum-cake, cake-master-class, cookies
    - Other workshops: cursive-writing, spoken-english
 */
-import academyHero from "@/assets/academy-hero.jpg";
+import academyHero from "@/assets/academy-hero.jpg?w=500;800;1200&format=webp&as=metadata";
 import bookNowImg from "@/assets/book-now.jpg";
 
 /* workshop-specific images (optional — will be tried, otherwise fallback used) */
@@ -60,9 +61,10 @@ const getWorkshopImage = (workshopId: string, index: number) => {
     return fallbackImages[index % fallbackImages.length];
 };
 
-const WorkshopsPage: React.FC = () => {
+const AcademyPage: React.FC = () => {
     const [isLoadingWorkshops, setIsLoadingWorkshops] = useState(true);
     const [isLoadingOtherWorkshops, setIsLoadingOtherWorkshops] = useState(true);
+    const [isHeroImageLoaded, setIsHeroImageLoaded] = useState(false);
     const { isLoading: isButtonLoading, withLoading } = useButtonLoading();
 
     // Simulate async workshop data loading
@@ -81,21 +83,26 @@ const WorkshopsPage: React.FC = () => {
         <div className="min-h-screen pt-24">
 
             {/* Hero Section */}
-            <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background">
+            <section className="py-10 px-6 bg-gradient-to-b from-cream-100 to-background">
                 <div className="w-full mx-auto">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="grid md:grid-cols-2 gap-5 items-center">
                         {/* Left hero image */}
                         <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.9 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{
+                                opacity: isHeroImageLoaded ? 1 : 0,
+                                scale: isHeroImageLoaded ? 1 : 0.95
+                            }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
                             className="hidden md:flex items-center justify-center"
                         >
-                            <img
+                            <OptimizedImage
                                 src={academyHero}
                                 alt="Academy hero"
-                                className="w-72 md:w-96 lg:w-[520px] object-contain select-none drop-shadow-2xl"
+                                className="w-72 md:w-96 lg:w-[520px] object-contain select-none drop-shadow-2xl transition-opacity duration-500"
                                 draggable={false}
+                                loading="eager"
+                                onLoad={() => setIsHeroImageLoaded(true)}
                             />
                         </motion.div>
 
@@ -105,11 +112,11 @@ const WorkshopsPage: React.FC = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <div className="text-center md:text-left mb-8">
+                            <div className="pr-6 text-center md:text-left mb-8">
                                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance costaline-font">
                                     Get ready to Bake.
                                 </h1>
-                                <p className="text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed leansans-regular">
+                                <p className="pl-3 text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed leansans-regular">
                                     At Beulah Skill Academy, we believe every skill has the power to transform
                                     confidence, creativity, and everyday life. Created with a passion for accessible
                                     learning, we offer short, practical and impactful online workshops.
@@ -120,7 +127,7 @@ const WorkshopsPage: React.FC = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.15 }}
-                                className="text-center md:text-left text-lg text-muted-foreground mb-4 max-w-2xl"
+                                className="pl-3 text-center md:text-left text-lg text-muted-foreground mb-4 max-w-2xl"
                             >
                                 Whether you're a beginner or a hobby baker, learn hands-on techniques to bake
                                 perfect brownies, cupcakes, cakes, and more.
@@ -352,4 +359,4 @@ const WorkshopsPage: React.FC = () => {
     );
 };
 
-export default WorkshopsPage;
+export default AcademyPage;

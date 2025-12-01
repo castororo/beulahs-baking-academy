@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 // Import the function logic (we'll extract it for testing)
-// Since getWorkshopImage is inside WorkshopsPage, we'll test the logic separately
+// Since getWorkshopImage is inside AcademyPage, we'll test the logic separately
 
 describe("getWorkshopImage logic", () => {
     const mockWorkshopImages = {

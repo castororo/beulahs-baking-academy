@@ -320,7 +320,7 @@ export const Hero: React.FC = () => {
       })}
 
       {/* Main Container */}
-      <div className="justify-evenly relative w-full mx-auto px-6 py-12 md:py-20">
+      <div className="justify-evenly relative w-full mx-auto px-12 py-12 md:py-20">
         <div className="justify-evenly grid md:grid-cols-2 gap-12 items-center">
           {/* LEFT CONTENT */}
           <motion.div
@@ -352,7 +352,7 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
-              className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 leansans-regular"
+              className="pl-11 text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 leansans-regular"
             >
               Your one-stop destination for desserts and skill-building workshops.
             </motion.p>
@@ -362,9 +362,9 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="flex items-center justify-center flex-col sm:flex-row gap-4 max-w-xl mx-auto md:mx-0"
+              className="flex pl-9 items-center justify-center flex-col sm:flex-row gap-4 max-w-xl mx-auto md:mx-0"
             >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className=" pl-12 flex">
                 <Button size="lg" className=" bg-chocolate hover:bg-chocolate-dark text-cream-50 text-lg px-10 py-6 shadow-xl leansans-bold" onClick={() => window.open("https://forms.gle/L7r2nXz9SfwBDi9x9", "_blank")}>
                   Book Now
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -380,7 +380,7 @@ export const Hero: React.FC = () => {
           </motion.div>
 
           {/* RIGHT CONTENT */}
-          <motion.div style={{ rotateX, rotateY }} className="relative flex items-center justify-center" aria-hidden>
+          <motion.div style={{ rotateX, rotateY }} className="pr-5 relative flex items-center justify-center" aria-hidden>
             {/* Brownies — draggable */}
             <motion.div
               animate={browniesControls}
@@ -406,7 +406,7 @@ export const Hero: React.FC = () => {
 
             {/* Cupcake — click to spawn fountain */}
             <motion.div
-              className="absolute right-0 top-1/2 transform translate-x-8"
+              className="pr-12 absolute right-0 top-1/2 transform translate-x-8"
               style={{ perspective: 800 }}
               onClick={(e) => { handleCupcakeAction(e as React.MouseEvent); }}
               onKeyDown={onCupcakeKey}
@@ -417,7 +417,7 @@ export const Hero: React.FC = () => {
               <motion.img
                 src={heroCupcake}
                 alt="Beautiful cupcake"
-                className="w-40 md:w-48 lg:w-56 object-contain drop-shadow-2xl select-none"
+                className="w-40 md:w-48 lg:w-60 object-contain drop-shadow-2xl select-none"
                 draggable={false}
                 style={{ willChange: "transform" }}
                 animate={{ y: [0, 12, 0] }}

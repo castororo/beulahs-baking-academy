@@ -7,7 +7,7 @@ interface ImageToolsOutput {
 }
 
 interface OptimizedImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> {
-    src: string | ImageToolsOutput;
+    src: string | ImageToolsOutput | any[];
     alt: string;
     width?: number;
     height?: number;
@@ -30,18 +30,39 @@ export const OptimizedImage = ({ src, alt, className, ...props }: OptimizedImage
         return <img src={src} alt={alt} className={className} loading="lazy" {...props} />;
     }
 
-    // If src is an object with srcset (responsive images from imagetools)
-    if (typeof src === 'object' && 'src' in src) {
+    // If src is an array (vite-imagetools as=metadata with multiple widths)
+    if (Array.isArray(src)) {
+        const srcSet = src.map((item: any) => `${item.src} ${item.width}w`).join(', ');
+        const fallbackSrc = src[src.length - 1]?.src;
         return (
             <img
-                src={src.src}
-                srcSet={src.srcset}
+                src={fallbackSrc}
+                srcSet={srcSet}
                 alt={alt}
                 className={className}
                 loading="lazy"
                 {...props}
             />
         );
+    }
+
+    // If src is an object with srcset (responsive images from imagetools - single object variant)
+    if (typeof src === 'object' && src !== null && 'src' in src) {
+        // Check if it has srcset property directly
+        if ('srcset' in src) {
+            return (
+                <img
+                    src={src.src}
+                    srcSet={(src as any).srcset}
+                    alt={alt}
+                    className={className}
+                    loading="lazy"
+                    {...props}
+                />
+            );
+        }
+        // Fallback for object without srcset (maybe just metadata)
+        return <img src={src.src} alt={alt} className={className} loading="lazy" {...props} />;
     }
 
     // Fallback
