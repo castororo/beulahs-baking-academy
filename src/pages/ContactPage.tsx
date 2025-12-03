@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram } from "lucide-react";
 
 const ContactPage = () => {
   return (
@@ -22,17 +22,18 @@ const ContactPage = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
+          <div className="  px-20 grid md:grid-cols-2 gap-10 mb-16">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-6"
+              className="space-y-1"
             >
               <div className="flex items-start gap-4">
-                <Phone className="w-6 h-6 text-chocolate mt-1" />
+                <Phone className="w-6 h-6 text-chocolate mt-3" />
                 <div>
-                  <h3 className="font-bold mb-1">Phone</h3>
+                  <h3 className="font-bold ">Phone</h3> 
+                  {/* mb-1 */}
                   <a
                     href="tel:7502699771"
                     className="text-muted-foreground hover:text-chocolate transition-colors"
@@ -43,9 +44,24 @@ const ContactPage = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <Mail className="w-6 h-6 text-chocolate mt-1" />
+                <Facebook className="w-6 h-6 text-chocolate mt-3" />
                 <div>
-                  <h3 className="font-bold mb-1">Instagram</h3>
+                  <h3 className="font-bold ">Facebook</h3>
+                  <a
+                    href="https://www.facebook.com/people/Beulah-Skill-Training-Academy/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-chocolate transition-colors"
+                  >
+                    Beulah Skill Training Academy
+                  </a>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <Mail className="w-6 h-6 text-chocolate mt-3" />
+                <div>
+                  <h3 className="font-bold">Instagram</h3>
                   <a
                     href="https://www.instagram.com/beulah_james2024/"
                     target="_blank"
@@ -58,14 +74,14 @@ const ContactPage = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <MapPin className="w-6 h-6 text-chocolate mt-1" />
+                <MapPin className="w-6 h-6 text-chocolate mt-3" />
                 <div>
-                  <h3 className="font-bold mb-1">Location</h3>
+                  <h3 className="font-bold ">Location</h3>
                   <p className="text-muted-foreground">Pudukkottai, Tamil Nadu</p>
                 </div>
               </div>
 
-              <div className="pt-4">
+              {/* <div className="pt-4">
                 <Button
                   className="w-full bg-chocolate hover:bg-chocolate-dark text-cream-50"
                   asChild
@@ -79,7 +95,7 @@ const ContactPage = () => {
                     Follow Us on Instagram
                   </a>
                 </Button>
-              </div>
+              </div> */}
             </motion.div>
 
             <motion.div
@@ -88,18 +104,20 @@ const ContactPage = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="bg-card p-8 rounded-3xl shadow-xl"
             >
-              <h3 className="text-2xl font-bold mb-4">Send us a message</h3>
+              <h3 className="pt-9 text-2xl font-bold mb-4">Send us a message</h3>
               <p className="text-muted-foreground mb-6">
                 For detailed inquiries, please fill out our contact form:
               </p>
-              <Button
-                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+              <div className="py-7">
+                <Button
+                className=" w-full bg-accent hover:bg-accent/90 text-accent-foreground"
                 onClick={() =>
                   window.open("https://forms.gle/EioB5iiSvTym3yeLA", "_blank")
                 }
               >
                 Open Contact Form
               </Button>
+              </div>
             </motion.div>
           </div>
 
