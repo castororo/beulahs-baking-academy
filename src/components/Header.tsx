@@ -51,9 +51,10 @@ export const Header = () => {
           {/* Logo: use brand-font (Tovar / Tovar replacement)/////jb changes */}
           <NavLink
             to="/"
-            className="text-2xl px-3 py-3 md:text-4xl font-bold text-chocolate brand-font"
+            className="flex flex-col items-center leading-none px-3 py-1 text-chocolate hover:opacity-80 transition-opacity"
           >
-            Beulah
+            <span className="text-2xl md:text-4xl font-bold brand-font">Beulah</span>
+            <span className="text-xs md:text-sm costaline-font tracking-wide">Skill Training Academy</span>
           </NavLink>
 
           {/* Desktop Navigation */}
@@ -137,7 +138,7 @@ export const Header = () => {
           )}
         </AnimatePresence>
       </div>
-    </motion.header>
+    </motion.header >
   );
 };
 

@@ -35,9 +35,8 @@ const ShopPage: React.FC = () => {
   // Combine existing products with extra ones (no price for new products)
   const extraProducts = [
     { id: "plum-cake", title: "Plum Cake", shortDesc: "Moist spiced plum cake — perfect for gifting.", image: plumCake },
-    { id: "banana-bread", title: "Banana Bread", shortDesc: "Buttery banana bread with walnuts.", image: teaCake },
-    { id: "truffle", title: "Chocolate Truffle", shortDesc: "Rich bite-sized truffles for chocoholics.", image: cookies },
-    { id: "lemon-bars", title: "Lemon Bars", shortDesc: "Tangy and sweet lemon squares.", image: blondie },
+    { id: "banana-bread", title: "Bread", shortDesc: "Buttery bread", image: teaCake },
+    { id: "truffle", title: "Homemade Chocolates", shortDesc: "Rich bite-sized chocolates for chocoholics.", image: cookies },
   ];
   const allProducts = [...coursesData.products, ...extraProducts];
 
