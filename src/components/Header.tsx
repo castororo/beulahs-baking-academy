@@ -42,11 +42,11 @@ export const Header = () => {
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || isOpen ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
         }`}
       role="banner"
     >
-      <div className="w-full mx-auto px-6 m-2">
+      <div className="w-full mx-auto px-4 md:px-6 py-2">
         <div className="flex items-center justify-between">
           {/* Logo: use brand-font (Tovar / Tovar replacement)/////jb changes */}
           <NavLink

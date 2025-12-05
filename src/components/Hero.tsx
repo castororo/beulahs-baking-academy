@@ -320,7 +320,7 @@ export const Hero: React.FC = () => {
       })}
 
       {/* Main Container */}
-      <div className="justify-evenly relative w-full mx-auto px-12 py-12 md:py-20">
+      <div className="justify-evenly relative w-full mx-auto px-6 py-12 md:px-12 md:py-20">
         <div className="justify-evenly grid md:grid-cols-2 gap-12 items-center">
           {/* LEFT CONTENT */}
           <motion.div
@@ -329,7 +329,7 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center "  //md:text-left
           >
-            <motion.h1 className="text-3xl md:text-4xl lg:text-7xl font-bold mb-6 text-balance leading-snug">
+            <motion.h1 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-6 text-balance leading-snug">
               {["Welcome", "to", "Beulah", "Skill", "Training", "Academy"].map((word, i) => (
                 <motion.span
                   key={word}

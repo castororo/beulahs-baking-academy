@@ -24,11 +24,16 @@ import teaCake from "@/assets/tea-cake.jpg";
 import cookies from "@/assets/cookies.png";
 import blondie from "@/assets/blondie.png";
 
+import ProductCard from "@/components/ProductCard";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+
 const fallbackImages = [yummybrownies, mouthwateringcakes, deliciouscupcakes, yummyblondies];
 const ORDER_FORM_URL = "https://forms.gle/AUT9suo7jX4Svo2Z9";
 
 const ShopPage: React.FC = () => {
   const productsCarouselRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const { clones, particles, spawnClone, spawnParticles, playClickSound, handleUndo, clearEffects } = useAnimationEffects();
   const { isLoading: isButtonLoading, withLoading } = useButtonLoading();
 
@@ -74,7 +79,12 @@ const ShopPage: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Simulate initial load time for skeleton display
+    const timer = setTimeout(() => {
+      setIsLoadingProducts(false);
+    }, 800);
     return () => {
+      clearTimeout(timer);
       clearEffects();
     };
   }, [clearEffects]);
@@ -87,7 +97,7 @@ const ShopPage: React.FC = () => {
         <div className="w-full mx-auto">
           <div className="pl-5 grid md:grid-cols-2 gap-12 items-center">
             <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-              <h1 className={`text-5xl md:text-6xl lg:text-7xl font-bold mb-6 costaline-font ${styles.heroTitle}`}>
+              <h1 className={`text-4xl md:text-6xl lg:text-7xl font-bold mb-6 costaline-font ${styles.heroTitle}`}>
                 Homemade cakes & brownies
                 <br />
                 that taste like love.
@@ -116,9 +126,42 @@ const ShopPage: React.FC = () => {
       </section>
 
       {/* TAKE A BITE — homepage-style responsive grid */}
+      <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background relative take-a-bite-section">
+        <div className="w-full mx-auto">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
+            <h2 className={`text-4xl md:text-5xl font-bold mb-4 costaline-font ${styles.takeABiteTitle}`}>Take a bite!</h2>
+            <p className="text-muted-foreground leansans-regular">Handcrafted treats and class snippets from our students.</p>
+          </motion.div>
 
-
-      {/* ALL PRODUCTS — continuous carousel (right → left) */}
+          <div className="py-4 relative overflow-hidden">
+            <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
+              {isLoadingProducts ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <div key={`skeleton-${index}`} className={styles.productCardWrapper}>
+                    <ProductCardSkeleton />
+                  </div>
+                ))
+              ) : (
+                coursesData.products.map((product: any, index: number) => {
+                  const imgSrc = getImageSrc(product, index);
+                  return (
+                    <div key={product.id || index} className={styles.productCardWrapper}>
+                      <ProductCard
+                        product={product}
+                        index={index}
+                        imgSrc={imgSrc}
+                        gridRef={gridRef}
+                        onProductClick={handleProductClick}
+                        onImageError={handleImageError}
+                      />
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      </section>      {/* ALL PRODUCTS — continuous carousel (right → left) */}
       <section className="py-8 px-6 bg-background">
         <div className="w-full mx-auto">
           <div className="py-8 text-center mb-6">

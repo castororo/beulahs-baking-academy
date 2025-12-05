@@ -183,7 +183,7 @@ const HomePage: React.FC = () => {
 
           <div className="py-4 relative overflow-hidden">
             {/* Plain grid (no marquee) — 2 columns on small, 4 on md+ */}
-            <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
+            <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
               {isLoadingProducts ? (
                 // Show skeletons during initial load
                 Array.from({ length: 4 }).map((_, index) => (
