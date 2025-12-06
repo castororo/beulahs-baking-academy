@@ -1,6 +1,6 @@
 /* Product Card Wrapper */
 .productCardWrapper {
-  min-width: 220px;
+  min-width: 0;
   max-width: 260px;
 }
 
