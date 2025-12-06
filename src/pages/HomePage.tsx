@@ -111,83 +111,149 @@ const HomePage: React.FC = () => {
       <Hero />
 
       {/* Discover */}
-      <section className="py-0 px-0 bg-gradient-to-b from-cream-100 to-background overflow-hidden relative discover-desserts">
-        <div className="w-full mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-stretch">
-            <motion.div initial={{ opacity: 0, x: -60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} className="relative w-full md:h-[100vh] lg:h-[100vh] overflow-hidden">
-              {/* freshdesert hero image — removed overlay that added tint */}
-              <motion.img
-                src={freshdesert}
-                alt="Fresh desserts preview"
-                className={`absolute inset-0 w-full h-full object-cover parallax-img rounded-tl-[28px] rounded-bl-[28px] ${styles.blockImage}`}
-                initial={{ scale: 1.06 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 1.2 }}
-                loading="lazy"
-                onError={(e) => handleImageError(e, 0, "Discover hero")}
-              />
-              {/* overlay removed to avoid tint: <div className="absolute inset-0 bg-gradient-to-br from-chocolate/10 to-transparent" /> */}
-            </motion.div>
+      <section className="bg-gradient-to-b from-cream-100 to-background overflow-hidden relative py-12 md:py-0">
+        <div className="grid md:grid-cols-2 w-full min-h-auto md:min-h-screen items-stretch">
 
-            <motion.div initial={{ opacity: 0, x: 60 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, delay: 0.1 }} className="pr-10 flex flex-col justify-center text-center">
-              {/* section header uses Costaline (header font) */}
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 costaline-font">Discover desserts that speak the language of love.</h2>
-              {/* small lead uses Leansans bold */}
-              <p className="text-lg leansans-bold mb-6 tracking-wide all-caps">SWEET TREATS, BAKED FRESH AT HOME.</p>
+          {/* Image – hidden on mobile */}
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+            className="hidden md:block relative w-full h-full overflow-hidden"
+          >
+            <motion.img
+              src={freshdesert}
+              alt="Fresh desserts preview"
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={{ scale: 1.06 }}
+              whileInView={{ scale: 1 }}
+              transition={{ duration: 1.2 }}
+              loading="lazy"
+              onError={(e) => handleImageError(e, 0, 'Discover hero')}
+            />
+          </motion.div>
 
-              <motion.div whileHover={{ y: -3 }} transition={{ type: "spring", stiffness: 300 }}>
-                <UiButton variant="cream" className="rounded-none" onClick={() => navigate("/shop")}>Click here to shop</UiButton>
-              </motion.div>
+          {/* Text Block */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            className="flex flex-col justify-center items-center text-center px-4 md:px-16 py-12 md:py-0"
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 costaline-font max-w-xl">
+              Discover desserts that speak the language of love.
+            </h2>
+
+            <p className="text-base sm:text-lg leansans-bold mb-6 tracking-wide all-caps">
+              SWEET TREATS, BAKED FRESH AT HOME.
+            </p>
+
+            <motion.div whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300 }}>
+              <UiButton variant="cream" className="rounded-none" onClick={() => navigate('/shop')}>
+                Click here to shop
+              </UiButton>
             </motion.div>
-          </div>
+          </motion.div>
+
         </div>
       </section>
+
+
+
+
+
 
       {/* Skills */}
-      <section className="py-0 px-0 bg-background relative overflow-hidden">
-        <div className="w-full mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-stretch">
-            <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="flex flex-col justify-center text-center">
-              <h2 className="pl-5 text-4xl md:text-5xl font-bold mb-6 costaline-font">Skills That Last a Lifetime</h2>
-              <p className="pl-3 text-lg leansans-bold mb-8 leading-relaxed">JOIN OUR ONLINE CERTIFIED WORKSHOPS ON BAKING AND MORE</p>
-              <motion.div whileHover={{ scale: 1.03 }} transition={{ type: "spring", stiffness: 280 }}>
-                <UiButton variant="cream" className="rounded-none" onClick={() => navigate("/workshops")}>Learn More</UiButton>
-              </motion.div>
-            </motion.div>
+      <section className="bg-background relative overflow-hidden py-12 sm:py-16 md:py-0">
+        <div className="grid md:grid-cols-2 w-full min-h-auto md:min-h-screen items-stretch">
 
-            <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.1 }} className="relative w-full md:h-[100vh] lg:h-[100vh] overflow-hidden">
-              {/* Bakingclass image — overlay removed as well */}
-              <motion.img
-                src={Bakingclass}
-                alt="Baking class preview"
-                className={`absolute inset-0 w-full h-full object-cover ${styles.blockImage}`}
-                initial={{ scale: 1.03 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 1.2 }}
-                loading="lazy"
-                onError={(e) => handleImageError(e, 1, "Skills image")}
-              />
-              {/* removed overlay that previously added a light tint */}
+          {/* Text Block */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col justify-center items-center text-center px-4 md:px-16 py-12 md:py-0"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 costaline-font">
+              Skills That Last a Lifetime
+            </h2>
+            <p className="text-lg leansans-bold mb-8 leading-relaxed">
+              JOIN OUR ONLINE CERTIFIED WORKSHOPS ON BAKING AND MORE
+            </p>
+            <motion.div whileHover={{ scale: 1.03 }} transition={{ type: 'spring', stiffness: 280 }}>
+              <UiButton
+                variant="cream"
+                className="rounded-none"
+                onClick={() => navigate('/workshops')}
+              >
+                Learn More
+              </UiButton>
             </motion.div>
-          </div>
+          </motion.div>
+
+          {/* Image – hidden on mobile, full height on desktop */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="hidden md:block relative w-full h-full overflow-hidden"
+          >
+            <motion.img
+              src={Bakingclass}
+              alt="Baking class preview"
+              className={`absolute inset-0 w-full h-full object-cover ${styles.blockImage}`}
+              initial={{ scale: 1.03 }}
+              whileInView={{ scale: 1 }}
+              transition={{ duration: 1.2 }}
+              loading="lazy"
+              onError={(e) => handleImageError(e, 1, 'Skills image')}
+            />
+          </motion.div>
+
         </div>
       </section>
 
+
       {/* Take a Bite — NO auto-scroll marquee, plain responsive grid */}
-      <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background relative take-a-bite-section">
-        <div className="w-full mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-12">
+      <section className="bg-gradient-to-b from-cream-100 to-background relative take-a-bite-section py-16 sm:py-20">
+        <div className="w-full max-w-6xl mx-auto px-0">
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-4xl md:text-5xl font-bold mb-4 costaline-font">Take a bite!</h2>
-            <p className="text-muted-foreground leansans-regular">Handcrafted treats and class snippets from our students.</p>
+            <p className="text-muted-foreground leansans-regular">
+              Handcrafted treats and class snippets from our students.
+            </p>
           </motion.div>
 
           <div className="py-4 relative overflow-hidden">
-            {/* Plain grid (no marquee) — 2 columns on small, 4 on md+ */}
-            <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
+            {/* Plain grid — 1 column mobile, 2 on small, 4 on desktop */}
+            <div
+              ref={gridRef}
+              className="
+                  grid
+                  grid-cols-1
+                  gap-10
+                  sm:grid-cols-2
+                  lg:grid-cols-4
+                  place-items-center"
+            >
               {isLoadingProducts ? (
                 // Show skeletons during initial load
                 Array.from({ length: 4 }).map((_, index) => (
-                  <div key={`skeleton-${index}`} className={styles.productCardWrapper}>
+                  <div
+                    key={`skeleton-${index}`}
+                    className={`${styles.productCardWrapper} flex flex-col items-center text-center w-full max-w-xs sm:max-w-sm lg:max-w-[240px]`}
+                  >
                     <ProductCardSkeleton />
                   </div>
                 ))
@@ -196,7 +262,10 @@ const HomePage: React.FC = () => {
                 workshopsData.products.map((product: any, index: number) => {
                   const imgSrc = getImageSrc(product, index);
                   return (
-                    <div key={product.id || index} className={styles.productCardWrapper}>
+                    <div
+                      key={product.id || index}
+                      className={`${styles.productCardWrapper} flex flex-col items-center text-center w-full max-w-xs sm:max-w-sm lg:max-w-[240px]`}
+                    >
                       <ProductCard
                         product={product}
                         index={index}
@@ -210,6 +279,7 @@ const HomePage: React.FC = () => {
                 })
               )}
             </div>
+
           </div>
 
           <div className="text-center mt-10">
@@ -254,18 +324,21 @@ const HomePage: React.FC = () => {
         )}
       </section>
 
-      {/* Testimonials + FAQ */}
-      <section className="py-20 px-6 bg-background">
-        <div className="w-full mx-auto">
+      {/* Testimonials */}
+      <section className="bg-background py-16 sm:py-20">
+        <div className="w-full max-w-6xl mx-auto px-0">
           <TestimonialsMarquee />
         </div>
       </section>
 
-      <section className="py-20 px-6 bg-gradient-to-b from-cream-100 to-background">
-        <div className="w-full mx-auto">
+
+      {/* FAQ */}
+      <section className="bg-gradient-to-b from-cream-100 to-background py-16 sm:py-20">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQAccordion />
         </div>
       </section>
+
 
     </div>
   );
