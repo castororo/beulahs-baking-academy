@@ -50,16 +50,19 @@ const testimonialsSeed = [
 export const TestimonialsMarquee: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const [selectedTestimonial, setSelectedTestimonial] = useState<typeof testimonialsSeed[0] | null>(null);
-  const items = [...testimonialsSeed, ...testimonialsSeed];
+  // Duplicate 4 times to ensure no empty spaces on wider screens and smoother looping
+  const items = [...testimonialsSeed, ...testimonialsSeed, ...testimonialsSeed, ...testimonialsSeed];
 
   return (
     <div className="w-full testimonials-wrap">
       <div className="relative overflow-hidden rounded-2xl">
-        <div className="flex gap-6 will-change-transform testimonials-marquee pause-on-hover" ref={marqueeRef}>
+        {/* Removed gap-6, using margin on items instead for perfect 50% loop */}
+        <div className="flex will-change-transform testimonials-marquee pause-on-hover" ref={marqueeRef}>
           {items.map((t, idx) => (
             <div
               key={`${t.id}_${idx}`}
-              className="testimonial-card flex-shrink-0 p-6 md:p-8 cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+              // Added mr-6 to replace gap
+              className="testimonial-card flex-shrink-0 p-6 md:p-8 cursor-pointer hover:scale-[1.02] transition-transform duration-200 mr-6"
               style={{ width: 360 }}
               onClick={() => setSelectedTestimonial(t)}
             >
@@ -114,8 +117,8 @@ export const TestimonialsMarquee: React.FC = () => {
         .testimonials-marquee {
           display: flex;
           align-items: stretch;
-          gap: 20px;
-          animation: testimonials-marquee 15s linear infinite;
+          /* gap removed */
+          animation: testimonials-marquee 20s linear infinite; /* Increased total time because we have 4x items now */
           padding: 8px 12px;
         }
 
@@ -147,7 +150,7 @@ export const TestimonialsMarquee: React.FC = () => {
         @media (max-width: 900px) { .testimonial-card { width: 320px; } }
         @media (max-width: 520px) { 
           .testimonial-card { width: 280px; padding: 0 6px; } 
-          .testimonials-marquee { animation-duration: 8s; } 
+          .testimonials-marquee { animation-duration: 12s; } /* Faster on mobile relative to length */
         }
       `}</style>
     </div>
