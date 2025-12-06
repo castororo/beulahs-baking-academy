@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Facebook, Instagram } from "lucide-react";
+import cakeSticker from "@/assets/cake-sticker.png";
 
 const ContactPage = () => {
   return (
@@ -32,7 +33,7 @@ const ContactPage = () => {
               <div className="flex items-start gap-4">
                 <Phone className="w-6 h-6 text-chocolate mt-3" />
                 <div>
-                  <h3 className="font-bold ">Phone</h3> 
+                  <h3 className="font-bold ">Phone</h3>
                   {/* mb-1 */}
                   <a
                     href="tel:7502699771"
@@ -48,7 +49,7 @@ const ContactPage = () => {
                 <div>
                   <h3 className="font-bold ">Facebook</h3>
                   <a
-                    href="https://www.facebook.com/people/Beulah-Skill-Training-Academy/"
+                    href="https://www.facebook.com/p/Beulah-Skill-Training-Academy-61566935008774/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-chocolate transition-colors"
@@ -57,7 +58,7 @@ const ContactPage = () => {
                   </a>
                 </div>
               </div>
-              
+
               <div className="flex items-start gap-4">
                 <Mail className="w-6 h-6 text-chocolate mt-3" />
                 <div>
@@ -75,9 +76,21 @@ const ContactPage = () => {
 
               <div className="flex items-start gap-4">
                 <MapPin className="w-6 h-6 text-chocolate mt-3" />
-                <div>
-                  <h3 className="font-bold ">Location</h3>
-                  <p className="text-muted-foreground">Pudukkottai, Tamil Nadu</p>
+                <div className="w-full">
+                  <h3 className="font-bold mb-2">Location</h3>
+                  <p className="text-muted-foreground mb-4">Pudukkottai, Tamil Nadu</p>
+                  <div className="w-full h-64 rounded-xl overflow-hidden shadow-md border border-chocolate/10">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.0!2d78.8!3d10.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTAuMzg!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin&q=Beulah+Skill+Training+Academy+Pudukkottai"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Beulah Skill Training Academy Location"
+                    ></iframe>
+                  </div>
                 </div>
               </div>
 
@@ -98,25 +111,45 @@ const ContactPage = () => {
               </div> */}
             </motion.div>
 
+
+
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="bg-card p-8 rounded-3xl shadow-xl"
+              className="bg-card p-8 rounded-3xl shadow-xl flex flex-col h-full relative overflow-hidden"
             >
               <h3 className="pt-9 text-2xl font-bold mb-4">Send us a message</h3>
               <p className="text-muted-foreground mb-6">
                 For detailed inquiries, please fill out our contact form:
               </p>
-              <div className="py-7">
+              <div className="py-7 relative z-10">
                 <Button
-                className=" w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-                onClick={() =>
-                  window.open("https://forms.gle/EioB5iiSvTym3yeLA", "_blank")
-                }
-              >
-                Open Contact Form
-              </Button>
+                  className=" w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                  onClick={() =>
+                    window.open("https://forms.gle/EioB5iiSvTym3yeLA", "_blank")
+                  }
+                >
+                  Open Contact Form
+                </Button>
+              </div>
+
+              {/* Decorative floating element to fill space */}
+              <div className="flex-1 flex items-center justify-center min-h-[200px]">
+                <motion.img
+                  src={cakeSticker}
+                  alt="Decorative cake"
+                  className="w-48 h-48 object-contain opacity-90"
+                  animate={{
+                    y: [0, -15, 0],
+                    rotate: [0, 5, -5, 0],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
               </div>
             </motion.div>
           </div>

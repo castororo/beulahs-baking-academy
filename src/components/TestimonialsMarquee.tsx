@@ -47,9 +47,14 @@ const testimonialsSeed = [
   },
 ];
 
+import { useIsMobile } from "@/hooks/use-mobile";
+
+// ... (existing imports)
+
 export const TestimonialsMarquee: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const [selectedTestimonial, setSelectedTestimonial] = useState<typeof testimonialsSeed[0] | null>(null);
+  const isMobile = useIsMobile();
   // Duplicate 4 times to ensure no empty spaces on wider screens and smoother looping
   const items = [...testimonialsSeed, ...testimonialsSeed, ...testimonialsSeed, ...testimonialsSeed];
 
@@ -57,7 +62,7 @@ export const TestimonialsMarquee: React.FC = () => {
     <div className="w-full testimonials-wrap">
       <div className="relative overflow-hidden rounded-2xl">
         {/* Removed gap-6, using margin on items instead for perfect 50% loop */}
-        <div className="flex will-change-transform testimonials-marquee pause-on-hover" ref={marqueeRef}>
+        <div className={`flex will-change-transform testimonials-marquee ${!isMobile ? "pause-on-hover" : ""}`} ref={marqueeRef}>
           {items.map((t, idx) => (
             <div
               key={`${t.id}_${idx}`}

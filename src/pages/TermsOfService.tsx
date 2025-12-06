@@ -101,8 +101,8 @@ const TermsOfService: React.FC = () => {
 
                     <p>
                         <strong>Beulah Skill Training Academy</strong><br />
-                        📩 Email: BeulahSkillTrainingAcademy@gmail.com<br />
-                        📞 Phone: 7502699771
+                        📩 Email: beulahjeniferjames@gmail.com<br />
+                        📞 Phone: +917502699771
                     </p>
 
                 </div>
