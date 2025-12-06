@@ -1,5 +1,12 @@
 // src/components/TestimonialsMarquee.tsx
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 /* Testimonials seed (moved from page file so this component is self-contained) */
 const testimonialsSeed = [
@@ -42,6 +49,7 @@ const testimonialsSeed = [
 
 export const TestimonialsMarquee: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement | null>(null);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<typeof testimonialsSeed[0] | null>(null);
   const items = [...testimonialsSeed, ...testimonialsSeed];
 
   return (
@@ -49,7 +57,12 @@ export const TestimonialsMarquee: React.FC = () => {
       <div className="relative overflow-hidden rounded-2xl">
         <div className="flex gap-6 will-change-transform testimonials-marquee pause-on-hover" ref={marqueeRef}>
           {items.map((t, idx) => (
-            <div key={`${t.id}_${idx}`} className="testimonial-card flex-shrink-0 p-6 md:p-8" style={{ width: 360 }}>
+            <div
+              key={`${t.id}_${idx}`}
+              className="testimonial-card flex-shrink-0 p-6 md:p-8 cursor-pointer hover:scale-[1.02] transition-transform duration-200"
+              style={{ width: 360 }}
+              onClick={() => setSelectedTestimonial(t)}
+            >
               <div className="testimonial-inner p-5 md:p-6 rounded-xl h-full flex flex-col justify-between">
                 <div>
                   <p className="testimonial-text">“{t.text}”</p>
@@ -68,11 +81,22 @@ export const TestimonialsMarquee: React.FC = () => {
         </div>
       </div>
 
-      {/* <div className="mt-6 flex justify-center gap-2">
-        {testimonialsSeed.map((_, i) => (
-          <span key={i} className="dot" />
-        ))}
-      </div> */}
+      <Dialog open={!!selectedTestimonial} onOpenChange={(open) => !open && setSelectedTestimonial(null)}>
+        <DialogContent className="sm:max-w-[425px] bg-cream-50 border-chocolate/10">
+          <DialogHeader>
+            <DialogTitle className="costaline-font text-2xl text-chocolate">{selectedTestimonial?.name}</DialogTitle>
+            <DialogDescription className="leansans-regular text-coco/80">
+              {selectedTestimonial?.location} • Student
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-lg text-chocolate leading-relaxed leansans-regular">
+              “{selectedTestimonial?.text}”
+            </p>
+
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <style>{`
         :root {
@@ -91,7 +115,7 @@ export const TestimonialsMarquee: React.FC = () => {
           display: flex;
           align-items: stretch;
           gap: 20px;
-          animation: testimonials-marquee 28s linear infinite;
+          animation: testimonials-marquee 15s linear infinite;
           padding: 8px 12px;
         }
 
@@ -121,7 +145,10 @@ export const TestimonialsMarquee: React.FC = () => {
         .dot:first-child { background: var(--choco); }
 
         @media (max-width: 900px) { .testimonial-card { width: 320px; } }
-        @media (max-width: 520px) { .testimonial-card { width: 280px; padding: 0 6px; } .testimonials-marquee { animation-duration: 20s; } }
+        @media (max-width: 520px) { 
+          .testimonial-card { width: 280px; padding: 0 6px; } 
+          .testimonials-marquee { animation-duration: 8s; } 
+        }
       `}</style>
     </div>
   );

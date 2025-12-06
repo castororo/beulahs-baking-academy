@@ -9,6 +9,7 @@ import { useButtonLoading } from "@/hooks/use-button-loading";
 import styles from "./ShopPage.module.css";
 import sharedStyles from "@/styles/shared.module.css";
 import { Loader2 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /* fallback / local asset images */
 import yummyblondies from "@/assets/yummy blondies.png";
@@ -30,12 +31,20 @@ import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 const fallbackImages = [yummybrownies, mouthwateringcakes, deliciouscupcakes, yummyblondies];
 const ORDER_FORM_URL = "https://forms.gle/AUT9suo7jX4Svo2Z9";
 
+const productImages: Record<string, string> = {
+  "brownies": yummybrownies,
+  "cakes": mouthwateringcakes,
+  "cupcakes": deliciouscupcakes,
+  "blondies": yummyblondies,
+};
+
 const ShopPage: React.FC = () => {
   const productsCarouselRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [isLoadingProducts, setIsLoadingProducts] = useState(true);
   const { clones, particles, spawnClone, spawnParticles, playClickSound, handleUndo, clearEffects } = useAnimationEffects();
   const { isLoading: isButtonLoading, withLoading } = useButtonLoading();
+  const isMobile = useIsMobile();
 
   // Combine existing products with extra ones (no price for new products)
   const extraProducts = [
@@ -47,11 +56,17 @@ const ShopPage: React.FC = () => {
 
   const getImageSrc = (product: any, index: number) => {
     const candidate = product?.image;
-    if (typeof candidate === "string" && candidate.trim().length > 0) return candidate;
+    if (typeof candidate === "string" && candidate.trim().length > 0) {
+      if (productImages[candidate]) {
+        return productImages[candidate];
+      }
+      return candidate;
+    }
     return fallbackImages[index % fallbackImages.length];
   };
 
   const handleProductClick = (e: React.MouseEvent, imgSrc: string) => {
+    if (isMobile) return; // Disable on mobile
     const target = e.currentTarget as HTMLElement;
     const imgEl = target.querySelector("img");
     const rect = (imgEl as HTMLImageElement)?.getBoundingClientRect

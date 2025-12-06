@@ -10,6 +10,7 @@ import { useAnimationEffects } from "@/hooks/use-animation-effects";
 import { useButtonLoading } from "@/hooks/use-button-loading";
 import styles from "./HomePage.module.css";
 import { Loader2 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import freshdesert from "@/assets/shop.jpg";
 import Bakingclass from "@/assets/home.jpg";
@@ -26,10 +27,18 @@ import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 /* fallback images */
 const fallbackImages = [yummybrownies, mouthwateringcakes, deliciouscupcakes, yummyblondies];
 
+const productImages: Record<string, string> = {
+  "brownies": yummybrownies,
+  "cakes": mouthwateringcakes,
+  "cupcakes": deliciouscupcakes,
+  "blondies": yummyblondies,
+};
+
 const ORDER_FORM_URL = "https://forms.gle/AUT9suo7jX4Svo2Z9";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -43,11 +52,17 @@ const HomePage: React.FC = () => {
 
   const getImageSrc = (product: any, index: number) => {
     const candidate = product?.image;
-    if (typeof candidate === "string" && candidate.trim().length > 0) return candidate;
+    if (typeof candidate === "string" && candidate.trim().length > 0) {
+      if (productImages[candidate]) {
+        return productImages[candidate];
+      }
+      return candidate;
+    }
     return fallbackImages[index % fallbackImages.length];
   };
 
   const handleProductClick = (e: React.MouseEvent, imgSrc: string) => {
+    if (isMobile) return; // Disable on mobile
     const target = e.currentTarget as HTMLElement;
     const imgEl = target.querySelector("img");
     const rect = (imgEl as HTMLImageElement)?.getBoundingClientRect ? (imgEl as HTMLImageElement).getBoundingClientRect() : target.getBoundingClientRect();
@@ -187,7 +202,7 @@ const HomePage: React.FC = () => {
               <UiButton
                 variant="cream"
                 className="rounded-none"
-                onClick={() => navigate('/workshops')}
+                onClick={() => navigate('/academy')}
               >
                 Learn More
               </UiButton>

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Award } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface WorkshopCardProps {
     title: string;
@@ -15,13 +16,14 @@ interface WorkshopCardProps {
 
 export const WorkshopCard = ({ title, duration, tag, shortDesc, delay = 0, image, imageAlt }: WorkshopCardProps) => {
     const [imageLoaded, setImageLoaded] = useState(false);
+    const isMobile = useIsMobile();
     return (
         <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay }}
-            whileHover={{ y: -8, transition: { duration: 0.3 } }}
+            whileHover={!isMobile ? { y: -8, transition: { duration: 0.3 } } : {}}
             className="group relative bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
         >
             <div className="absolute inset-0 bg-gradient-to-br from-chocolate/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

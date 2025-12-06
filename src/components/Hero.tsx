@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroBrownies from "@/assets/hero-brownies.png";
 import heroCupcake from "@/assets/hero-cupcake.png";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
  * Hero.tsx
@@ -54,6 +55,7 @@ const uniqueId = (() => {
 
 export const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   // ----- Cursor Tilt Effect -----
   const x = useMotionValue(0);
@@ -193,12 +195,14 @@ export const Hero: React.FC = () => {
   };
 
   const onCupcakeClick = (e: React.MouseEvent) => {
+    if (isMobile) return; // Disable on mobile
     const clickPageX = e.pageX;
     const clickPageY = e.pageY;
     spawnCupcakeFountain(clickPageX, clickPageY);
   };
 
   const onCupcakeKey = (e: React.KeyboardEvent) => {
+    if (isMobile) return; // Disable on mobile
     if (e.key === "Enter" || e.key === " ") {
       const el = e.target as HTMLElement;
       const rect = el.getBoundingClientRect();
@@ -405,12 +409,12 @@ export const Hero: React.FC = () => {
             {/* Brownies — draggable */}
             <motion.div
               animate={browniesControls}
-              drag={true}
+              drag={!isMobile}
               dragMomentum={false}
               dragElastic={0.12}
               onDragEnd={onBrownieDragEnd}
               initial={{ opacity: 0, scale: 0.98 }}
-              className="relative z-10"
+              className={`relative z-10 ${!isMobile ? "cursor-grab active:cursor-grabbing" : ""}`}
               role="button"
               aria-label="Delicious chocolate brownies (draggable)"
               tabIndex={0}
@@ -428,12 +432,12 @@ export const Hero: React.FC = () => {
             {/* Cupcake — click to spawn fountain */}
             <motion.div
               className="pr-12 absolute right-0 top-1/2 transform translate-x-8"
-              style={{ perspective: 800 }}
+              style={{ perspective: 800, cursor: isMobile ? "default" : "pointer" }}
               onClick={(e) => { handleCupcakeAction(e as React.MouseEvent); }}
               onKeyDown={onCupcakeKey}
               tabIndex={0}
               role="button"
-              aria-label="Click to make cupcakes fly!"
+              aria-label={isMobile ? "Beautiful cupcake" : "Click to make cupcakes fly!"}
             >
               <motion.img
                 src={heroCupcake}

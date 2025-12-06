@@ -1,11 +1,15 @@
 // src/components/Footer.tsx
 import React from "react";
+import { Link } from "react-router-dom";
 import { Instagram } from "lucide-react";
 import { Button as UiButton } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import footerCake from "@/assets/footer-cake.png";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Footer: React.FC = () => {
+  const isMobile = useIsMobile();
+
   return (
     <footer
       className="relative overflow-hidden"
@@ -95,11 +99,11 @@ export const Footer: React.FC = () => {
             {/* Draggable Cake */}
             <motion.div
               className="flex-shrink-0 md:absolute md:right-0 md:-top-20"
-              drag
+              drag={!isMobile}
               dragElastic={0.2}
               dragMomentum={false}
-              whileHover={{ scale: 1.12 }}
-              whileTap={{ scale: 1.05 }}
+              whileHover={!isMobile ? { scale: 1.12 } : {}}
+              whileTap={!isMobile ? { scale: 1.05 } : {}}
               animate={{ x: 0, y: 0 }}
               transition={{ type: "spring", stiffness: 220, damping: 18 }}
             >
@@ -150,7 +154,7 @@ export const Footer: React.FC = () => {
 
               <div className="space-y-2 leansans-regular">
                 <p className="text-sm footer-subtle">7502699771</p>
-                <p className="text-sm footer-subtle">beulahjames@gmail.com</p>
+                <a href="mailto:beulahjeniferjames@gmail.com" className="text-sm footer-subtle footer-link">beulahjeniferjames@gmail.com</a>
 
                 <a
                   href="https://www.instagram.com/beulah_james2024/"
@@ -191,18 +195,18 @@ export const Footer: React.FC = () => {
               <p>© 2025 Beulah Skill Training Academy — All rights reserved</p>
 
               <div className="flex items-center gap-4">
-                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="footer-link text-sm leansans-regular">
+                <Link to="/privacy-policy" className="footer-link text-sm leansans-regular">
                   Privacy Policy
-                </a>
+                </Link>
                 <span
                   className="text-cream"
                   style={{ opacity: 0.35 }}
                 >
                   |
                 </span>
-                <a href="/terms-of-service" target="_blank" rel="noopener noreferrer" className="footer-link text-sm leansans-regular">
+                <Link to="/terms-of-service" className="footer-link text-sm leansans-regular">
                   Terms of Service
-                </a>
+                </Link>
               </div>
             </div>
           </div>

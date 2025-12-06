@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ORDER_FORM_URL = "https://forms.gle/AUT9suo7jX4Svo2Z9";
 
@@ -66,6 +67,7 @@ export type ProductCardProps =
 export const ProductCard: React.FC<ProductCardProps> = (props) => {
   // detect mode
   const isAnimated = !!(props as any).product;
+  const isMobile = useIsMobile();
 
   if (isAnimated) {
     // animated / homepage mode
@@ -85,16 +87,16 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
         initial="hidden"
         whileInView="show"
         className="transform-gpu product-card flex flex-col items-center text-center"
-        whileHover={{ scale: 1.03 }}
+        whileHover={!isMobile ? { scale: 1.03 } : {}}
       >
         {/* Arch image block */}
         <motion.div
           animate={controls}
           className={`${archClass} bg-card rounded-none mb-4 flex items-center justify-center overflow-hidden shadow-lg cursor-grab relative w-full max-w-[240px]`}
-          whileHover={{ rotate: -1, y: -6 }}
-          whileTap={{ cursor: "grabbing" }}
+          whileHover={!isMobile ? { rotate: -1, y: -6 } : {}}
+          whileTap={!isMobile ? { cursor: "grabbing" } : {}}
           transition={{ type: "spring", stiffness: 280 }}
-          drag={!!gridRef}
+          drag={!!gridRef && !isMobile}
           dragConstraints={gridRef}
           dragMomentum={false}
           dragElastic={0.12}
