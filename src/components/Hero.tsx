@@ -1,4 +1,5 @@
 // src/components/Hero.tsx
+import "@/styles/hero-responsive.css";
 import React, { useRef, useState, useEffect } from "react";
 import { Button as UiButton } from "@/components/ui/button";
 import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
@@ -252,7 +253,7 @@ export const Hero: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-visible pt-20"
+      className="hero-section relative min-h-screen flex items-center justify-center overflow-visible pt-20"
       onMouseMove={handleMouseMove}
     >
       {/* Background Gradient */}
@@ -320,27 +321,28 @@ export const Hero: React.FC = () => {
       })}
 
       {/* Main Container */}
-      <div className="justify-evenly relative w-full mx-auto px-6 py-12 md:px-12 md:py-20">
-        <div className="justify-evenly grid md:grid-cols-2 gap-12 items-center">
+      <div className="hero-main relative w-full mx-auto px-6 py-12 md:px-12 md:py-20">
+        <div className="hero-grid grid md:grid-cols-2 gap-12 items-center justify-evenly">
           {/* LEFT CONTENT */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center text-center w-full px-4 "  //md:text-left
+            className="hero-left flex flex-col items-center text-center w-full px-4"
           >
-            <motion.h1 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-6 text-balance leading-snug">
+            <motion.h1
+              className="text-3xl md:text-5xl lg:text-7xl font-bold mb-6 text-balance leading-snug
+           max-w-4xl mx-auto text-center"
+            >
               {["Welcome", "to", "Beulah", "Skill", "Training", "Academy"].map((word, i) => (
                 <motion.span
                   key={word}
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.15 * i, ease: "easeOut" }}
-                  className={`inline-block mr-5 ${
-                    // 'Beulah' gets the brand font, 'Academy' also emphasized
-                    word === "Beulah" || word === "Academy" || word === "Skill" || word === "Training"
-                      ? "brand-font text-chocolate"
-                      : "leansans-bold"
+                  className={`inline-block mr-2 md:mr-5 ${word === "Beulah" || word === "Academy" || word === "Skill" || word === "Training"
+                    ? "brand-font text-chocolate"
+                    : "leansans-bold"
                     }`}
                 >
                   {word}
@@ -352,35 +354,54 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
-              className="pl-11 text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 leansans-regular"
+              className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto
+           leansans-regular text-center"
             >
               Your one-stop destination for desserts and skill-building workshops.
             </motion.p>
 
-            {/* ---------- UPDATED: center & align buttons with above text ---------- */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="flex pl-9 items-center justify-center flex-col sm:flex-row gap-4 max-w-xl mx-auto md:mx-0"
+              className="flex items-center justify-center md:justify-start
+                         flex-col sm:flex-row gap-4 max-w-xl mx-auto md:mx-0"
             >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className=" pl-12 flex">
-                <Button size="lg" className=" bg-chocolate hover:bg-chocolate-dark text-cream-50 text-lg px-10 py-6 shadow-xl leansans-bold" onClick={() => window.open("https://forms.gle/L7r2nXz9SfwBDi9x9", "_blank")}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex justify-center md:justify-start"
+              >
+                <Button
+                  size="lg"
+                  className="bg-chocolate hover:bg-chocolate-dark text-cream-50 text-lg px-10 py-6 shadow-xl leansans-bold"
+                  onClick={() => window.open("https://forms.gle/L7r2nXz9SfwBDi9x9", "_blank")}
+                >
                   Book Now
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </motion.div>
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <UiButton size="lg" variant="cream" className="rounded-none text-lg px-8 py-6" onClick={() => navigate("/shop")}>
+                <UiButton
+                  size="lg"
+                  variant="cream"
+                  className="rounded-none text-lg px-8 py-6"
+                  onClick={() => navigate("/shop")}
+                >
                   Click here to shop
                 </UiButton>
               </motion.div>
             </motion.div>
           </motion.div>
 
+
           {/* RIGHT CONTENT */}
-          <motion.div style={{ rotateX, rotateY }} className="pr-5 relative flex items-center justify-center" aria-hidden>
+          <motion.div
+            style={{ rotateX, rotateY }}
+            className="hero-right pr-5 relative flex items-center justify-center"
+            aria-hidden
+          >
             {/* Brownies — draggable */}
             <motion.div
               animate={browniesControls}
