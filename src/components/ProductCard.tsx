@@ -80,10 +80,17 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
     const archClass = variant === "simple" ? "" : "arch-card";
 
     return (
-      <motion.div variants={itemVariants} initial="hidden" whileInView="show" className="text-center transform-gpu product-card" whileHover={{ scale: 1.03 }}>
+      <motion.div
+        variants={itemVariants}
+        initial="hidden"
+        whileInView="show"
+        className="transform-gpu product-card flex flex-col items-center text-center"
+        whileHover={{ scale: 1.03 }}
+      >
+        {/* Arch image block */}
         <motion.div
           animate={controls}
-          className={`${archClass} bg-card rounded-none mb-4 flex items-center justify-center overflow-hidden shadow-lg cursor-grab relative`}
+          className={`${archClass} bg-card rounded-none mb-4 flex items-center justify-center overflow-hidden shadow-lg cursor-grab relative w-full max-w-[240px]`}
           whileHover={{ rotate: -1, y: -6 }}
           whileTap={{ cursor: "grabbing" }}
           transition={{ type: "spring", stiffness: 280 }}
@@ -99,10 +106,12 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
         >
           {/* decorative arc overlay (keeps arch look) */}
           <span aria-hidden className="arch-decor" />
+
           <motion.img
             src={imgSrc}
             alt={product?.title ?? "product image"}
-            className={`w-full h-full object-cover select-none transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`w-full h-full object-cover select-none transition-opacity duration-300 ${imageLoaded ? "opacity-100" : "opacity-0"
+              }`}
             initial={{ scale: 1 }}
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 4 + (index || 0) * 0.6, repeat: Infinity, ease: "easeInOut" }}
@@ -113,15 +122,17 @@ export const ProductCard: React.FC<ProductCardProps> = (props) => {
               if (onImageError) onImageError(e, index, product?.title);
             }}
           />
-          {!imageLoaded && (
-            <div className="absolute inset-0 bg-muted animate-pulse" />
-          )}
+
+          {!imageLoaded && <div className="absolute inset-0 bg-muted animate-pulse" />}
         </motion.div>
 
+        {/* Text block */}
         <h3 className="font-bold text-lg mb-1">{product?.title}</h3>
         <p className="text-sm text-muted-foreground mb-4">{product?.shortDesc}</p>
       </motion.div>
     );
+
+
   } else {
     // legacy/simple mode
     const { title, price, shortDesc, image, delay = 0, variant } = props as any;
