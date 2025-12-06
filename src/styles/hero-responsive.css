@@ -1,0 +1,150 @@
+/* src/styles/hero-responsive.css */
+
+/* Base (mobile-first, all orientations) */
+.hero-section {
+    /* we keep min-height via Tailwind, just safe defaults here if needed */
+}
+
+.hero-main {
+    max-width: 1200px;
+}
+
+.hero-grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-left,
+.hero-right {
+    /* let Tailwind handle most spacing; we only tweak by breakpoint */
+}
+
+/* ──────────────────────────────────────────── */
+/*  Mobile – Portrait                           */
+/* ──────────────────────────────────────────── */
+@media (max-width: 599px) and (orientation: portrait) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        /* stack text & image */
+        text-align: center;
+    }
+
+    .hero-left {
+        align-items: center;
+    }
+
+    .hero-right {
+        margin-top: 2rem;
+        padding-right: 0;
+    }
+
+    .hero-left h1 {
+        font-size: 1.9rem;
+        line-height: 1.2;
+    }
+
+    .hero-left p {
+        font-size: 1rem;
+    }
+}
+
+/* ──────────────────────────────────────────── */
+/*  Mobile – Landscape                          */
+/* ──────────────────────────────────────────── */
+@media (max-width: 599px) and (orientation: landscape) {
+    .hero-grid {
+        grid-template-columns: 1.2fr 0.8fr;
+        /* text + smaller image side by side */
+    }
+
+    .hero-left {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .hero-right {
+        padding-right: 0.5rem;
+    }
+
+    .hero-left h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* ──────────────────────────────────────────── */
+/*  Tablet – Portrait                           */
+/* ──────────────────────────────────────────── */
+@media (min-width: 600px) and (max-width: 1023px) and (orientation: portrait) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        /* stacked, but bigger */
+    }
+
+    .hero-left {
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-right {
+        margin-top: 2.5rem;
+        padding-right: 0;
+    }
+
+    .hero-left h1 {
+        font-size: 2.4rem;
+    }
+}
+
+/* ──────────────────────────────────────────── */
+/*  Tablet – Landscape                          */
+/* ──────────────────────────────────────────── */
+@media (min-width: 600px) and (max-width: 1023px) and (orientation: landscape) {
+    .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .hero-left {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .hero-left h1 {
+        font-size: 2.3rem;
+    }
+}
+
+/* ──────────────────────────────────────────── */
+/*  Laptop / Small Desktop (≥1024px)           */
+/* ──────────────────────────────────────────── */
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .hero-left {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .hero-right {
+        padding-right: 1.5rem;
+    }
+}
+
+/* ──────────────────────────────────────────── */
+/*  Large Desktop (≥1440px)                     */
+/* ──────────────────────────────────────────── */
+@media (min-width: 1440px) {
+    .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .hero-main {
+        max-width: 1360px;
+    }
+
+    .hero-left h1 {
+        font-size: 3.4rem;
+    }
+}
