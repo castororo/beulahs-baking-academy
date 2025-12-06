@@ -327,7 +327,7 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center "  //md:text-left
+            className="flex flex-col items-center text-center w-full px-4 "  //md:text-left
           >
             <motion.h1 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-6 text-balance leading-snug">
               {["Welcome", "to", "Beulah", "Skill", "Training", "Academy"].map((word, i) => (
